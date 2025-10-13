@@ -32,7 +32,7 @@ const SideBarMenu: FC<SideBarMenuProps> = ({ isOpen, onClose }) => {
           <Logo className="text-white" spanDesign="group-hover:text-white" />
           <button
             onClick={onClose}
-            className="hover:text-green-400 cursor-pointer hoverEffect font-bold text-xl mt-1"
+            className="hover:text-green-400 cursor-pointer hoverEffect  text-xl mt-1"
           >
             X
           </button>

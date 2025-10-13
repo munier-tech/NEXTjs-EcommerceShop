@@ -2,8 +2,9 @@ import { Facebook, Instagram, Linkedin } from 'lucide-react'
 import React from 'react'
 import { Tooltip, TooltipProvider, TooltipTrigger } from './ui/tooltip'
 import Link from 'next/link'
+import { cn } from '@/lib/utils'
 
-const SocialMedia = () => {
+const SocialMedia = ({ className , iconClassName} : { className?: string  , iconClassName?: string }) => {
 
   const socialMedia = [
     {title: 'Facebook', icon: <Facebook/>, link: 'https://www.facebook.com'},
@@ -14,9 +15,9 @@ const SocialMedia = () => {
     <TooltipProvider>
       <div className='flex gap-2 items-center' >
         {socialMedia?.map((item) => (
-          <Tooltip >
+          <Tooltip key={item?.title}>
           <TooltipTrigger asChild>
-          <Link key={item.title} href={item.link} target='_blank' className='border-2 text-gray-400 rounded-full p-2  hover:text-white hover:border-green-400 hoverEffect mr-2' >
+          <Link href={item.link} target='_blank' className={cn('border-2 text-gray-400 rounded-full p-2  hover:text-white hover:border-green-400 hoverEffect mr-2', className)} >
             <span>
               {item?.icon}
             </span>
