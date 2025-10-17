@@ -1,10 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
+
+
+
 
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-poppins: 'Poppins', sans-serif;
+  --font-family: "Epilogue", sans-serif;
 }
 
 @theme inline {
@@ -44,6 +48,38 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) translateX(0px); }
+  50% { transform: translateY(-20px) translateX(10px); }
+}
+
+@keyframes wave {
+  0%, 100% { transform: translateX(0) scaleY(1); }
+  50% { transform: translateX(-10%) scaleY(1.2); }
+}
+
+@keyframes gradient-x {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+.animate-float-slow { animation: float 6s ease-in-out infinite; }
+.animate-float-medium { animation: float 4s ease-in-out infinite; }
+.animate-float-fast { animation: float 3s ease-in-out infinite; }
+.animate-float-random { animation: float 3s ease-in-out infinite; }
+.animate-pulse-slow { animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-pulse-medium { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+.animate-spin-slow { animation: spin 8s linear infinite; }
+.animate-wave { animation: wave 8s ease-in-out infinite; }
+.animate-gradient-x { animation: gradient-x 3s ease infinite; }
+.animate-ping-slow { animation: ping 3s cubic-bezier(0, 0, 0.2, 1) infinite; }
 
 :root {
   --radius: 0.625rem;
