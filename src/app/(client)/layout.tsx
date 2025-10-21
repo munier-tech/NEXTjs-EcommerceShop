@@ -29,8 +29,8 @@ export default function ClientLayout({
 
         <ClerkProvider>
           <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full mb-9 z-50">
-              <Header />
+            <header className="fixed top-0 left-0 w-full mb-11 z-50">
+              <Header className="mb-8" />
             </header>
             <main className="pt-20 flex-grow">{children}</main>
             <Footer />

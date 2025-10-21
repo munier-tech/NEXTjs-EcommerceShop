@@ -261,6 +261,7 @@ export type Product = {
   _updatedAt: string;
   _rev: string;
   name?: string;
+  stock?: number;
   slug?: Slug;
   description?: string;
   images?: Array<{
@@ -278,7 +279,6 @@ export type Product = {
   }>;
   price?: number;
   discount?: number;
-  stock?: number;
   category?: Array<{
     _ref: string;
     _type: "reference";
@@ -459,3 +459,36 @@ export type SanityAssetSourceData = {
 
 export type AllSanitySchemaTypes = Address | Post | Blog | Author | Blogcategory | Category | Order | Product | Brand | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
+// Source: ./src/sanity/queries/query.ts
+// Variable: BRANDS_QUERY
+// Query: *[_type == "brand"] | order(name asc)
+export type BRANDS_QUERYResult = Array<{
+  _id: string;
+  _type: "brand";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+  description?: string;
+  image?: {
+    asset?: {
+      _ref: string;
+      _type: "reference";
+      _weak?: boolean;
+      [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+    };
+    media?: unknown;
+    hotspot?: SanityImageHotspot;
+    crop?: SanityImageCrop;
+    _type: "image";
+  };
+}>;
+
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    "*[_type == \"brand\"] | order(name asc)": BRANDS_QUERYResult;
+  }
+}

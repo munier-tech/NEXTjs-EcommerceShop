@@ -2,78 +2,63 @@ import { DocumentTextIcon } from "@sanity/icons";
 import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const blogType = defineType({
-  name : "blog",
-  title : "Blog",
-  type : "document",
-  icon : DocumentTextIcon,
-  fields : [
+  name: "blog",
+  title: "Blog",
+  type: "document",
+  icon: DocumentTextIcon,
+  fields: [
     defineField({
-      name : "title",
-      title : "Title",
-      type : "string",
-      description : "The title of the blog",
-      validation : (Rule) => Rule.required().max(100),
+      name: "title",
+      type: "string",
     }),
     defineField({
-      name : "slug",
-      title : "title",
-      type : "slug",
-      options : {
-        source : "title"
-      }
+      name: "slug",
+      type: "slug",
+      options: {
+        source: "title",
+      },
     }),
     defineField({
-      name : "author",
-      type : "reference",
-      to : { type : "author" },
+      name: "author",
+      type: "reference",
+      to: { type: "author" },
     }),
     defineField({
-      name : "mainimage" ,
-      title : "Main Image",
-      type : "image",
-      description : "The main image of the blog",
-      options : {
-        hotspot : true
-      }
+      name: "mainImage",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
     }),
     defineField({
-      name : "blogcategories",
-      type : "array",
-      of : [
-        defineArrayMember({
-        type : "reference",
-        to : { type : "blogcategory" }
-      })]
+      name: "publishedAt",
+      type: "datetime",
     }),
     defineField({
-      name : "publishedAt",
-      type : "datetime",
+      name: "isLatest",
+      title: "Latest Blog",
+      type: "boolean",
+      description: "Toggle to Latest on or off",
+      initialValue: true,
     }),
     defineField({
-      name : "isLatest",
-      title : "Latest Blog",
-      type : "boolean",
-      description : "Is this the latest blog?",
-      initialValue : true,
+      name: "body",
+      type: "blockContent",
     }),
-    defineField({
-      name : "body",
-      type : "blockContent",
-    })
   ],
-  preview : {
-    select : {
-      title : "title",
-      author : "author.name",
-      media : "mainImage",
-      isLatest : "isLatest"
+  preview: {
+    select: {
+      title: "title",
+      author: "author.name",
+      media: "mainImage",
+      isLatest: "isLatest",
     },
     prepare(selection) {
       const { author, isLatest } = selection;
       return {
         ...selection,
-        subtitle : author && `by ${author} ${isLatest ? "(Latest)" : ""}`
+        subtitle: author && `${isLatest ? "Latest | " : ""} By ${author}`,
       };
-    }
+    },
   },
 });

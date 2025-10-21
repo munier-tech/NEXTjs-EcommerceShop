@@ -10,11 +10,11 @@ import MobileMenu from './MobileMenu'
 import { currentUser } from '@clerk/nextjs/server'
 import { ClerkLoaded, SignedIn, UserButton } from '@clerk/nextjs'
 
-const Header = async () => {
+const Header = async ({ className } : { className : string } ) => {
   const user = await currentUser()
 
   return (
-    <header className="m-auto py-4 backdrop-blur-xl bg-white/10 shadow-2xl border-b border-white/20 sticky top-0 z-50">
+    <header className="m-auto py-4 backdrop-blur-xl bg-white/10 shadow-xl  border-b border-white/20 sticky top-0 z-50">
       <Container>
         <div className="flex items-center justify-between">
           
