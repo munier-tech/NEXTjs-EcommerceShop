@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:ital,wght@0,520;1,520&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 
 
-
-
-@custom-variant dark (&:is(.dark *));
-
-@theme {
-  --font-family: "Epilogue", sans-serif;
+@layer base {
+  html {
+    font-family: "Epilogue", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 520;
+    font-style: normal;
+  }
 }
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

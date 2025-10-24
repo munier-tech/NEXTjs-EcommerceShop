@@ -14,7 +14,7 @@ const Header = async ({ className } : { className : string } ) => {
   const user = await currentUser()
 
   return (
-    <header className="m-auto py-4 backdrop-blur-xl bg-white/10 shadow-xl  border-b border-white/20 sticky top-0 z-50">
+    <header className="m-auto py-4 backdrop-blur-xl bg-white/10   border-b border-white/20 sticky top-0 z-50">
       <Container>
         <div className="flex items-center justify-between">
           

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import "../globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import Header from "@/components/Header";
@@ -15,6 +15,12 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const roboto = Roboto({
+  variable: "--font-roboto",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
+
 export const metadata: Metadata = {
   title: "MASSDROP",
   description: "Online Shop Cart",
@@ -26,16 +32,16 @@ export default function ClientLayout({
   children: React.ReactNode;
 }) {
   return (
-
-        <ClerkProvider>
-          <div className="flex flex-col min-h-screen">
-            <header className="fixed top-0 left-0 w-full mb-11 z-50">
-              <Header className="mb-8" />
-            </header>
-            <main className="pt-20 flex-grow">{children}</main>
-            <Footer />
-          </div>
-        </ClerkProvider>
-     
+    <ClerkProvider>
+      <div className={`${roboto.variable} flex flex-col min-h-screen`}>
+        <header className="fixed top-0 left-0 w-full mb-11 z-50">
+          <Header className="mb-8" />
+        </header>
+        <main className={`${roboto.className} pt-20 flex-grow`}>
+          {children}
+        </main>
+        <Footer />
+      </div>
+    </ClerkProvider>
   );
 }

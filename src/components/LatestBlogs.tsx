@@ -13,7 +13,7 @@ const LatestBlog = async () => {
       <h1 className="text-xl font-bold">Latest Blog</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mt-5">
         {blogs?.map((blog : any) => (
-          <div key={blog?._id} className="rounded-lg overflow-hidden">
+          <div key={blog?._id} className="overflow-hidden hover:border-black border-gray-300 rounded-lg cursor-pointer hoverEffect border-1">
             {blog?.mainImage && (
               <Link href={`/blog/${blog?.slug?.current}`}>
                 <Image
@@ -25,31 +25,25 @@ const LatestBlog = async () => {
                 />
               </Link>
             )}
-            <div className="bg-gray-100 p-5">
+            <div className="bg-white p-5">
               <div className="text-xs flex items-center gap-5">
-                <div className="flex items-center relative group cursor-pointer">
-                  {blog?.blogs?.map((item : any, index : any) => (
-                    <p
-                      key={index}
-                      className="font-semibold text-green-700 tracking-wider"
-                    >
-                      {item?.title}
-                    </p>
-                  ))}
-                  <span className="absolute left-0 -bottom-1.5 bg-green-300/30 inline-block w-full h-[2px] group-hover:bg-green-500 hover:cursor-pointer hoverEffect" />
-                </div>
-                <p className="flex items-center gap-1 text-green-900 relative group hover:cursor-pointer hover:text-green-600 hoverEffect">
+              <div
+              className="text-xs group cursor-pointer text-green-700 font-bold hoverEffect relative group"  
+              >
+              {blog?.title}
+              <span className="left-0 -bottom-1.5 bg-gray-300 hover:text-green-900 absolute w-full h-[2px]" ></span>
+              </div>
+                <p className="flex items-center gap-1 text-gray-500 relative group hover:cursor-pointer  hoverEffect">
                   <Calendar size={15} />{" "}
                   {dayjs(blog.publishedAt).format("MMMM D, YYYY")}
-                  <span className="absolute left-0 -bottom-1.5 bg-gray-500 inline-block w-full h-[2px] group-hover:bg-green-700 hoverEffect" />
+                  <span className="absolute left-0 -bottom-1.5 bg-gray-300 inline-block w-full h-[2px] group-hover:bg-green-900 hoverEffect" />
                 </p>
               </div>
-              <Link
-                href={`/blog/${blog?.slug?.current}`}
-                className="text-base font-semibold tracking-wide mt-5 line-clamp-2 hover:text-green-600 hoverEffect"
+              <div
+                className="text-base  font-bold tracking-wide mt-5 line-clamp-2"
               >
-                {blog?.title}
-              </Link>
+                {blog?.description}
+              </div>
             </div>
           </div>
         ))}

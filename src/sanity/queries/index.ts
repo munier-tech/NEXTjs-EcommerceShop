@@ -59,4 +59,19 @@ const getLatestBlogs = async () => {
 };
 
 
-export { getCategories , getBrands , getBlogs  , getLatestBlogs };
+const getDeals = async () => {
+  try {
+
+    const { data } = await sanityFetch({ query : `*[_type == "product" && status == "hot"] | order(title asc) {
+      ...,"categores" : categories[]->title }` });
+
+
+    return data || [];
+    
+  } catch (error) {
+    console.log("Error fetching deals", error);
+    return [];
+  }
+}
+
+export { getCategories , getBrands , getBlogs  , getLatestBlogs , getDeals};
