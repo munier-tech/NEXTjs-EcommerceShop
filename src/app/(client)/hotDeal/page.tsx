@@ -3,6 +3,7 @@ import Container from '@/components/Container';
 import ProductCard from '@/components/ProductCard';
 import { getDeals } from '@/sanity/queries';
 import ProductCategory from '@/components/ProductCategory';
+import { Product } from '../../../../sanity.types';
 
 const Page = async () => {
   const products = await getDeals();
@@ -22,7 +23,7 @@ const Page = async () => {
           </p>
         ) : (
           <div className="mt-7 p-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2.5">
-            {products.map((product: any) => (
+            {products.map((product: Product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>

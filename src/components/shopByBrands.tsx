@@ -9,71 +9,105 @@ const extraData = [
   {
     title: "Free Delivery",
     description: "Free shipping over $100",
-    icon: <Truck size={45} />,
+    icon: <Truck className="w-12 h-12" />,
+    color: "from-blue-500 to-blue-600",
   },
   {
     title: "Free Return",
     description: "Free shipping over $100",
-    icon: <GitCompareArrows size={45} />,
+    icon: <GitCompareArrows className="w-12 h-12" />,
+    color: "from-green-500 to-green-600",
   },
   {
     title: "Customer Support",
-    description: "Friendly 27/7 customer support",
-    icon: <Headset size={45} />,
+    description: "Friendly 24/7 customer support",
+    icon: <Headset className="w-12 h-12" />,
+    color: "from-purple-500 to-purple-600",
   },
   {
-    title: "Money Back guarantee",
+    title: "Money Back Guarantee",
     description: "Quality checked by our team",
-    icon: <ShieldCheck size={45} />,
+    icon: <ShieldCheck className="w-12 h-12" />,
+    color: "from-orange-500 to-orange-600",
   },
 ];
 
 const ShopByBrands = async () => {
   const brands = await getBrands();
   return (
-    <div className="my-10 lg:mb-20 bg-gray-50 p-5 lg:p-7 rounded-md">
-      <div className="flex items-center gap-5 justify-between mb-10">
-        <h1 className="text-2xl font-bold text-center">Shop By Brands</h1>
-        <Link
-          href={"/shop"}
-          className="text-sm font-semibold tracking-wide hover:text-green-700 hoverEffect"
-        >
-          View all
-        </Link>
-      </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-2.5">
-        {brands?.map((brand) => (
+    <div className="my-16 lg:my-24">
+      {/* Shop By Brands Section */}
+      <div className="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8 lg:p-12 shadow-sm border border-gray-100 mb-16">
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12">
+          <div className="text-center sm:text-left mb-4 sm:mb-0">
+            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+              Shop By Brands
+            </h1>
+            <p className="text-gray-600 text-lg">Discover your favorite brands</p>
+          </div>
           <Link
-            key={brand?._id}
-            href={`/brand/${brand?.slug?.current}`}
-            className="bg-white w-34 h-24 flex items-center justify-center rounded-md overflow-hidden hover:shadow-lg shadow-shop_dark_green/20 hoverEffect"
+            href={"/shop"}
+            className="group inline-flex items-center gap-2 text-green-600 hover:text-green-700 font-semibold px-6 py-3 rounded-full border border-green-600 hover:border-green-700 transition-all duration-300 hover:shadow-lg"
           >
-            {brand?.image && (
-              <Image
-                src={urlFor(brand?.image).url()}
-                alt="brandImage"
-                width={250}
-                height={250}
-                className="w-32 h-20 object-contain"
-              />
-            )}
+            View all brands
+            <svg 
+              className="w-4 h-4 transition-transform group-hover:translate-x-1" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
           </Link>
-        ))}
+        </div>
+
+        {/* Brands Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 lg:gap-6">
+          {brands?.map((brand) => (
+            <Link
+              key={brand?._id}
+              href={`/brand/${brand?.slug?.current}`}
+              className="group bg-white rounded-2xl p-4 flex items-center justify-center shadow-sm hover:shadow-2xl border border-gray-100 transition-all duration-300 hover:-translate-y-2"
+            >
+              {brand?.image && (
+                <div className="relative w-28 h-16">
+                  <Image
+                    src={urlFor(brand?.image).url()}
+                    alt="brandImage"
+                    fill
+                    className="object-contain transition-transform duration-300 group-hover:scale-110"
+                  />
+                </div>
+              )}
+            </Link>
+          ))}
+        </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-16 p-2 shadow-sm hover:shadow-shop_light_green/20 py-5">
+
+      {/* Features Section */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
         {extraData?.map((item, index) => (
           <div
             key={index}
-            className="flex items-center gap-3 group text-lightColor hover:text-shop_light_green"
+            className="group bg-white rounded-2xl p-6 lg:p-8 shadow-sm hover:shadow-xl border border-gray-100 transition-all duration-300 hover:-translate-y-2 cursor-pointer"
           >
-            <span className="inline-flex scale-100 group-hover:scale-90 hoverEffect">
-              {item?.icon}
-            </span>
-            <div className="text-sm">
-              <p className="text-darkColor/80 font-bold capitalize">
-                {item?.title}
+            <div className="flex flex-col items-center text-center">
+              {/* Icon with gradient background */}
+              <div className={`mb-6 p-4 rounded-2xl bg-gradient-to-r ${item.color} text-white transform group-hover:scale-110 transition-transform duration-300`}>
+                {item.icon}
+              </div>
+              
+              {/* Content */}
+              <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                {item.description}
               </p>
-              <p className="text-lightColor">{item?.description}</p>
+              
+              {/* Hover indicator */}
+              <div className="w-0 group-hover:w-12 h-1 bg-gradient-to-r from-gray-900 to-gray-700 rounded-full mt-4 transition-all duration-300"></div>
             </div>
           </div>
         ))}

@@ -28,7 +28,7 @@ const Header = async ({ className } : { className : string } ) => {
           </div>
 
           {/* Navigation */}
-          <nav className="hidden md:block transform hover:scale-105 transition-all duration-300">
+          <nav className="hidden md:block  transform hover:scale-105 transition-all duration-300">
             <HeaderMenu />
           </nav>
 

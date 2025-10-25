@@ -18,10 +18,10 @@ const HeaderMenu = () => {
     <div className='hidden md:flex items-center gap-8 capitalize'>
       {HeaderData?.map((item) => (
         <Link 
-          className={`relative group transition-all duration-300 font-bold text-sm ${
+          className={`relative group transition-all duration-300 font-semibold text-sm ${
             pathName === item?.href 
               ? "text-green-500 font-semibold" 
-              : "text-black hover:text-green-500"
+              : "text-gray-600 hover:text-green-500"
           }`}  
           key={item.title} 
           href={item.href}
