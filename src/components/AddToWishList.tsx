@@ -4,7 +4,7 @@ import React from 'react'
 import { Product } from '../../sanity.types'
 import { cn } from '@/lib/utils'
 
-const AddToWishList = ({ product , className } : { product : Product , className ?: string }) => {
+const AddToWishList = ({ product , className  } : { product : Product , className ?: string }) => {
   return (
     <div className={cn(`absolute right-2 top-2 z-10 `, className)} >
       <div className='p-2.5 bg-gray-100 hover:bg-green-950   rounded-full hover:text-white text-black hoverEffect' >

@@ -42,7 +42,7 @@ fetchData()
       <div>
         {loading ? (
           <motion.div 
-            className="flex flex-col items-center justify-center min-h-80 w-full rounded-2xl mt-7 py-36 bg-gradient-to-br from-gray-50 to-gray-100/80 backdrop-blur-sm border border-gray-200/60 shadow-sm"
+            className="flex flex-col items-center justify-center min-h-80 w-full rounded-2xl mt-7 py-36 bg-gradient-to-br from-gray-50 to-blue-200/80 backdrop-blur-sm border border-gray-200/60 shadow-sm"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -59,7 +59,7 @@ fetchData()
               >
                 <Loader2 className='h-6 w-6' />
               </motion.div>
-              <span className="text-lg font-medium">Loading products...</span>
+              <span className="text-lg text-blue-700 font-medium">Loading products...</span>
             </motion.div>
             
             {/* Subtle pulsing dots */}

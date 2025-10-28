@@ -81,9 +81,9 @@ const ProductCard = ({ product }: { product: Product }) => {
                 key={index}
                 size={14}
                 className={`${
-                  index < 4 ? "text-green-400" : "text-gray-300"
+                  index < 4 ? "text-green-800" : "text-gray-300"
                 } transition-colors`}
-                fill={index < 4 ? "#64fb24" : "none"}
+                fill={index < 4 ? "#013220" : "none"}
               />
             ))}
           </div>

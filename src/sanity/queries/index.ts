@@ -1,3 +1,4 @@
+import { Slug } from "../../../sanity.types";
 import { sanityFetch } from "../lib/live";
 import { BRANDS_QUERY } from "./query";
 
@@ -21,6 +22,25 @@ const getCategories = async (quantity?: number) => {
     console.log("Error fetching categories", error);
     return [];
   }
+};
+
+import { client } from "@/sanity/lib/client";
+
+const getProductBySlug = async (slug: string) => {
+  const query = `
+    *[_type == "product" && slug.current == $slug][0]{
+      _id,
+      name,
+      description,
+      price,
+      stock,
+      discount,
+      "brand": brand->name,
+      "category": category[]->title,
+      images[], // keep full reference for urlFor()
+    }
+  `;
+  return await client.fetch(query, { slug });
 };
 
 const getBrands = async () => {
@@ -74,4 +94,4 @@ const getDeals = async () => {
   }
 }
 
-export { getCategories , getBrands , getBlogs  , getLatestBlogs , getDeals};
+export { getCategories , getBrands , getBlogs  , getLatestBlogs, getProductBySlug , getDeals};
