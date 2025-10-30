@@ -1,43 +1,42 @@
 import { TagIcon } from "@sanity/icons";
-import { defineField } from "sanity";
+import { defineField, defineType } from "sanity";
 
-
-
-export const brandType = {
-  name : "brand",
-  title : "Brand",
-  type : "document",
-  icon : TagIcon,
-  fields : [
+export const brandType = defineType({
+  name: "brand",
+  title: "Brand",
+  type: "document",
+  icon: TagIcon,
+  fields: [
     defineField({
-      name : "title",
-      type : "string",
+      name: "title",
+      type: "string",
     }),
     defineField({
-      name : "slug",
-      type : "slug",
-      options : {
-        source : "title",
-      }
+      name: "slug",
+      type: "slug",
+      options: {
+        source: "title",
+      },
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name : "description",
-      type : "string",
+      name: "description",
+      type: "text",
     }),
     defineField({
-      name : "image",
-      type : "image",
-      title : "Brand image",
-      options : {
-        hotspot : true,
-      }
+      name: "image",
+      title: "Brand Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
     }),
   ],
-  preview : {
-    select : {
-      title : "title",
-      subTitle : "description",
-      media : "image",
-    }
-  }
-};
+  preview: {
+    select: {
+      title: "title",
+      subtitle: "description",
+      media: "image",
+    },
+  },
+});

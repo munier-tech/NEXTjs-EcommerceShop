@@ -1,14 +1,17 @@
+import AddToWishList from '@/components/AddToWishList'
+import AddToWishList2 from '@/components/AddToWishlist2'
 import Container from '@/components/Container'
 import ImageView from '@/components/ImageView'
+import ProductCharacteristics from '@/components/productCharacteristics'
 import { Button } from '@/components/ui/button'
 import { getProductBySlug } from '@/sanity/queries'
 import { StarIcon, Shield, Truck, RotateCcw, Heart, Share2, ZoomIn } from 'lucide-react'
 import React from 'react'
 
-const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
-  const { slug } = await params
-  const product = await getProductBySlug(slug)
-  const isStock = product?.stock > 0
+const Page = async ({ params }: { params: { slug: string } }) => {
+  const { slug } = await params;
+  const product = await getProductBySlug(slug);
+  const isStock = product?.stock > 0;
 
   // Calculate discounted price
   const originalPrice = product?.price ? product.price + (product.price * (product.discount || 0)) / 100 : 0
@@ -33,7 +36,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             {/* Image Gallery Section - Full Width */}
             <div className="space-y-15">
               {/* Main Image Container - Full Width */}
-              <div className="relative group bg-white rounded-3xl shadow-2xl p-4 lg:p-6   w-full overflow-hidden">
+              <div className="relative group bg-white rounded-3xl shadow-2xl p-4 lg:p-6 w-full overflow-hidden">
                 <div className="w-full aspect-square">
                   <ImageView product={product} isStock={isStock ? 1 : 0} />
                   
@@ -83,7 +86,6 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 </div>
               )}
             </div>
-
 
             {/* Product Details Section */}
             <div className="space-y-8">
@@ -145,14 +147,6 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 <p className="text-green-600 font-medium">Including all taxes</p>
               </div>
 
-              {/* Description */}
-              <div className="space-y-4">
-                <h3 className="text-xl font-bold text-gray-900">Product Description</h3>
-                <p className="text-lg text-gray-600 leading-relaxed">
-                  {product?.description}
-                </p>
-              </div>
-
               {/* Features */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="flex items-center space-x-3 p-4 bg-white rounded-2xl border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
@@ -189,14 +183,17 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Button 
                     disabled={!isStock}
-                    className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none disabled:hover:shadow-lg"
+                    className="flex-1 bg-gradient-to-r mt-0.5 cursor-pointer from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none disabled:hover:shadow-lg"
                   >
                     {isStock ? 'Add to Cart' : 'Out of Stock'}
                   </Button>
-                  <Button className="px-8 py-4 border-2 border-gray-300 hover:border-gray-400 bg-white text-gray-700 rounded-2xl font-bold text-lg transition-all duration-200 transform hover:-translate-y-0.5 hover:shadow-lg">
-                    Buy Now
-                  </Button>
+                  <div className="flex items-center justify-center border-2 border-gray-300 hover:border-gray-400 bg-white text-gray-700 rounded-full">
+                    <AddToWishList2 product={product}/>
+                  </div>
                 </div>
+
+                {/* FIXED: Remove the <p> wrapper around ProductCharacteristics */}
+                <ProductCharacteristics product={product} />
                 
                 {/* Additional Info */}
                 <div className="flex items-center justify-center space-x-6 text-sm text-gray-500 pt-4">
@@ -267,6 +264,16 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
                       </div>
                       <p className="text-gray-600">Amazing product quality! Exceeded my expectations. The delivery was fast and packaging was excellent.</p>
                     </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Product Description */}
+              <div className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">Product Description</h2>
+                <div className="w-full">
+                  <div className='text-gray-600 text-lg break-words overflow-visible'>
+                    {product?.description}
                   </div>
                 </div>
               </div>

@@ -1,6 +1,8 @@
 import React from 'react';
 import { motion, Variants } from 'framer-motion';
 import { cn } from '@/lib/utils'; // Make sure you have cn utility
+import { Button } from './ui/button';
+import Link from 'next/link';
 
 interface NoProductsAvailableProps {
   selectedTab: string;
@@ -119,13 +121,17 @@ const NoProductsAvailable = ({ selectedTab, className }: NoProductsAvailableProp
         className="flex flex-col sm:flex-row gap-4"
         variants={itemVariants}
       >
-        <motion.button
-          className="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors duration-200 shadow-md"
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(34, 197, 94, 0.4)" }}
-          whileTap={{ scale: 0.95 }}
-        >
-          Browse All Categories
-        </motion.button>
+        <motion.div
+        className="px-6 py-3 bg-green-600 text-white rounded-lg font-medium hover:bg-green-700 transition-colors duration-200 shadow-md"
+        whileHover={{ scale: 1.05, boxShadow: "0 10px 25px -5px rgba(34, 197, 94, 0.4)" }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Link href="/shop">
+          <Button className="w-full cursor-pointer h-full bg-transparent hover:bg-transparent text-white hover:text-white p-0">
+            Browse All Categories
+          </Button>
+        </Link>
+      </motion.div>
         
         <motion.button
           className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors duration-200"

@@ -12,7 +12,7 @@ const ProductCard = ({ product }: { product: Product }) => {
   const isOutOfStock = stock === 0;
 
   return (
-    <div className="text-sm border border-gray-300/20 rounded-md group bg-white">
+    <div className="text-sm border border-gray-300  group bg-white">
       {/* Image Section */}
       <div className="relative group overflow-hidden bg-gray-50">
         {product?.images && (

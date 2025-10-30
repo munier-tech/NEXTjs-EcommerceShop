@@ -478,11 +478,17 @@ export type BRANDS_QUERYResult = Array<{
     _type: "image";
   };
 }>;
+// Variable: BRAND_QUERY
+// Query: *[_type == "product" && slug.current == $slug][0]{    "brandName": brand->title  }
+export type BRAND_QUERYResult = {
+  brandName: string | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"brand\"] | order(name asc)": BRANDS_QUERYResult;
+    "\n  *[_type == \"product\" && slug.current == $slug][0]{\n    \"brandName\": brand->title\n  }\n": BRAND_QUERYResult;
   }
 }

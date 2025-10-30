@@ -11,7 +11,7 @@ const ImageView = ({ product, isStock }: { product: Product; isStock: number }) 
     <div className="w-full space-y-4">        
       {/* Main Image */}
       {product?.images?.[0] && (
-        <div className="border border-gray-200 bg-white rounded-md">
+        <div className="bg-white rounded-md">
           <Image
             src={urlFor(product.images[0]).url()}
             alt={product?.name || "Product Image"}
