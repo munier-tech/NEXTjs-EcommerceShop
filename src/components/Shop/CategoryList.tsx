@@ -1,51 +1,61 @@
 import React from "react";
-import { RadioGroup, RadioGroupItem } from "../ui/radio-group";
-import { Label } from "../ui/label";
+import { Tag, X } from "lucide-react";
 import { Category } from "../../../sanity.types";
 
-interface Props {
+interface CategoryListProps {
   categories: Category[];
-  selectedCategory?: string | null;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string | null>>;
+  selectedCategory: string | null;
+  setSelectedCategory: (category: string | null) => void;
 }
 
-const CategoryList = ({
-  categories,
-  selectedCategory,
-  setSelectedCategory,
-}: Props) => {
+const CategoryList = ({ categories, selectedCategory, setSelectedCategory }: CategoryListProps) => {
   return (
-    <div className="w-full bg-white p-5">
-      <h1 className="text-lg  font-bold">Product Categories</h1>
-      <RadioGroup value={selectedCategory || ""} className="mt-2 space-y-1">
+    <div className="w-full space-y-4">
+      <div className="flex items-center space-x-3">
+        <div className="p-2 bg-gradient-to-br from-purple-500 to-indigo-600 rounded-xl shadow-sm">
+          <Tag className="w-4 h-4 text-white" />
+        </div>
+        <div>
+          <h3 className="font-semibold text-gray-900 text-sm uppercase tracking-wide">
+            Categories
+          </h3>
+          <p className="text-gray-500 text-xs">Browse by category</p>
+        </div>
+      </div>
+
+      <div className="space-y-2 max-h-60 overflow-y-auto scrollbar-thin">
+        <button
+          onClick={() => setSelectedCategory(null)}
+          className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-200 ${
+            selectedCategory === null
+              ? "bg-purple-100 text-purple-700 border-purple-200 shadow-sm font-semibold"
+              : "text-gray-700 hover:bg-gray-50 border-gray-200 hover:border-purple-200 font-medium"
+          }`}
+        >
+          All Categories
+        </button>
         {categories?.map((category) => (
-          <div
-            onClick={() => {
-              setSelectedCategory(category?.slug?.current as string);
-            }}
-            key={category?._id}
-            className="flex items-center space-x-2 hover:cursor-pointer"
+          <button
+            key={category._id}
+            onClick={() => setSelectedCategory(category.slug?.current || null)}
+            className={`w-full text-left px-4 py-3 rounded-xl border transition-all duration-200 ${
+              selectedCategory === category.slug?.current
+                ? "bg-indigo-100 text-indigo-700 border-indigo-200 shadow-sm font-semibold"
+                : "text-gray-700 hover:bg-gray-50 border-gray-200 hover:border-indigo-200 font-medium"
+            }`}
           >
-            <RadioGroupItem
-              value={category?.slug?.current as string}
-              id={category?.slug?.current}
-              className="rounded-sm"
-            />
-            <Label
-              htmlFor={category?.slug?.current}
-              className={`${selectedCategory === category?.slug?.current ? "font-semibold text-shop_dark_green" : "font-normal"}`}
-            >
-              {category?.title}
-            </Label>
-          </div>
+            {category.title}
+          </button>
         ))}
-      </RadioGroup>
+      </div>
+
       {selectedCategory && (
         <button
           onClick={() => setSelectedCategory(null)}
-          className="text-sm font-medium mt-2 underline underline-offset-2 decoration-[1px] hover:text-shop_dark_green hoverEffect text-left"
+          className="w-full flex items-center justify-center space-x-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-gray-600 to-gray-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 hover:scale-[1.02] mt-2"
         >
-          Reset selection
+          <X className="w-4 h-4" />
+          <span>Clear Category Filter</span>
         </button>
       )}
     </div>

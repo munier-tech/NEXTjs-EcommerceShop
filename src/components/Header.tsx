@@ -28,7 +28,7 @@ const Header = async ({ className } : { className : string } ) => {
           </div>
 
           {/* Navigation */}
-          <nav className="hidden md:block  transform hover:scale-105 transition-all duration-300">
+          <nav className="hidden md:block ">
             <HeaderMenu />
           </nav>
 
@@ -36,7 +36,7 @@ const Header = async ({ className } : { className : string } ) => {
           <div className="flex w-auto md:w-1/3 items-center justify-end gap-4">
             
             {/* Search */}
-            <div className="hidden sm:block transform hover:scale-110 transition-all duration-200 hover:bg-white/20 p-2 rounded-xl">
+            <div className="transform hover:scale-110 transition-all duration-200 hover:bg-white/20 p-2 rounded-xl">
               <SearchBar />
             </div>
 

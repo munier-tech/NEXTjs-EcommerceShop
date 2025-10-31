@@ -11,10 +11,31 @@ const ProductCard = ({ product }: { product: Product }) => {
   const stock = product?.stock ?? 0;
   const isOutOfStock = stock === 0;
 
+  // Fix for categories - extract titles from objects
+  const categoryTitles = product?.category
+    ?.map((cat) => {
+      if (typeof cat === 'string') return cat;
+      if (cat && typeof cat === 'object' && 'title' in cat) return cat.title;
+      return '';
+    })
+    .filter(Boolean) || [];
+
+  // Fix for brand - extract title from object
+  const brandName = (() => {
+    const b = product?.brand;
+    if (!b) return '';
+    if (typeof b === 'string') return b;
+    if (typeof b === 'object' && 'title' in b) {
+      return (b as { title?: string }).title || '';
+    }
+    // handle reference objects (e.g. { _ref: '...', _type: 'reference' }) or unknown shapes
+    return '';
+  })();
+
   return (
-    <div className="text-sm border border-gray-300  group bg-white">
+    <div className="text-sm border border-gray-300 group bg-white">
       {/* Image Section */}
-      <div className="relative group overflow-hidden bg-gray-50">
+      <div className="relative group overflow-hidden bg-gray-200">
         {product?.images && (
           <Link href={`/product/${product?.slug?.current}`}>
             <Image
@@ -22,7 +43,7 @@ const ProductCard = ({ product }: { product: Product }) => {
               alt={product?.name || "Product Image"}
               width={500}
               height={500}
-              className={`w-full h-64 object-contain overflow-hidden transition-transform bg-gray-50 duration-500 ${
+              className={`w-full h-64 object-contain overflow-hidden transition-transform bg-white duration-500 ${
                 !isOutOfStock ? "group-hover:scale-105" : "opacity-50"
               }`}
             />
@@ -61,17 +82,26 @@ const ProductCard = ({ product }: { product: Product }) => {
 
       {/* Info Section */}
       <div className="p-3 flex flex-col gap-2">
-        {/* Category */}
-        <p className="uppercase line-clamp-1 text-xs font-medium text-gray-500">
-          {product.category?.map((cat) => cat).join(", ")}
-        </p>
+        {/* Brand - ADDED THIS SECTION */}
+        {brandName && (
+          <p className="uppercase line-clamp-1 text-xs font-medium text-blue-600 bg-blue-50 px-2 py-1 rounded-md inline-block w-fit">
+            {brandName}
+          </p>
+        )}
 
         {/* Product Name */}
-        <p className="text-gray-900 font-bold line-clamp-1 text-sm hover:text-green-700 transition-colors">
+        <p className="text-gray-900 font-bold line-clamp-1 text-xl hover:text-green-700 transition-colors">
           {product?.name
             ? product.name.charAt(0).toUpperCase() + product.name.slice(1)
             : ""}
         </p>
+
+        {/* Categories */}
+        {categoryTitles.length > 0 && (
+          <p className="uppercase line-clamp-1 text-xs font-medium text-gray-500">
+            {categoryTitles.join(", ")}
+          </p>
+        )}
 
         {/* Rating */}
         <div className="flex items-center gap-2">
@@ -101,20 +131,22 @@ const ProductCard = ({ product }: { product: Product }) => {
         {/* Price */}
         <div className="flex items-center gap-2 text-sm font-semibold">
           <p className="text-black">${(product?.price ?? 0).toFixed(2)}</p>
-          <p className="line-through text-gray-400">
-            $
-            {(
-              (product?.price ?? 0) +
-              ((product?.price ?? 0) * (product?.discount ?? 0)) / 100
-            ).toFixed(2)}
-          </p>
+          {product?.discount && product.discount > 0 && (
+            <p className="line-through text-gray-400">
+              $
+              {(
+                (product?.price ?? 0) +
+                ((product?.price ?? 0) * (product?.discount ?? 0)) / 100
+              ).toFixed(2)}
+            </p>
+          )}
         </div>
 
         {/* Add to Cart */}
         <AddToCartButton
-            ClassName="w-full rounded-full text-sm py-2 font-bold sm:py-2"
-            product={product}
-          />
+          ClassName="w-full rounded-full text-sm py-2 font-bold sm:py-2"
+          product={product}
+        />
       </div>
     </div>
   );
