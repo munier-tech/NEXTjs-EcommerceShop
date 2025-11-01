@@ -45,7 +45,7 @@ const getBrandBySlug = async (slug: string) => {
 
 
 import { client } from "@/sanity/lib/client";
-import { BRAND_QUERY, BRANDS_QUERY } from "./query";
+import { BRAND_QUERY, BRANDS_QUERY, GET_ALL_BLOG, SINGLE_BLOG_QUERY } from "./query";
 
 const getProductBySlug = async (slug: string) => {
   const query = `
@@ -63,6 +63,32 @@ const getProductBySlug = async (slug: string) => {
     }
   `;
   return await client.fetch(query, { slug });
+};
+
+const getAllBlogs = async (quantity: number) => {
+  try {
+    const { data } = await sanityFetch({
+      query: GET_ALL_BLOG,
+      params: { quantity },
+    });
+    return data ?? [];
+  } catch (error) {
+    console.log("Error fetching all brands:", error);
+    return [];
+  }
+};
+
+const getSingleBlog = async (slug: string) => {
+  try {
+    const { data } = await sanityFetch({
+      query: SINGLE_BLOG_QUERY,
+      params: { slug },
+    });
+    return data ?? [];
+  } catch (error) {
+    console.log("Error fetching all brands:", error);
+    return [];
+  }
 };
 
 const getBrands = async () => {
@@ -116,4 +142,4 @@ const getDeals = async () => {
   }
 }
 
-export { getCategories , getBrands , getBlogs , getBrandBySlug , getLatestBlogs, getProductBySlug , getDeals};
+export { getCategories , getAllBlogs , getSingleBlog ,   getBrands , getBlogs , getBrandBySlug , getLatestBlogs, getProductBySlug , getDeals};

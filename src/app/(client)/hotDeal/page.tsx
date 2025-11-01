@@ -2,7 +2,6 @@ import React from 'react';
 import Container from '@/components/Container';
 import ProductCard from '@/components/ProductCard';
 import { getDeals } from '@/sanity/queries';
-import ProductCategory from '@/components/ProductCategory';
 import { Product } from '../../../../sanity.types';
 
 const Page = async () => {

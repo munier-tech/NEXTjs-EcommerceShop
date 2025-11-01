@@ -13,7 +13,7 @@ const HeaderMenu = () => {
     { title: "Hot Deal", href: "/hotDeal" },
   ];
   return (
-    <div className="hidden md:inline-flex w-1/3 items-center justify-center gap-7 text-sm capitalize font-semibold text-gray-800">
+    <div className="hidden md:inline-flex w-full items-center justify-center gap-7 text-sm capitalize font-semibold text-gray-800">
       {HeaderData?.map((item) => (
         <Link
           key={item?.title}
