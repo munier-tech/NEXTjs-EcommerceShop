@@ -17,8 +17,8 @@ interface Props {
 const PriceList = ({ selectedPrice, setSelectedPrice }: Props) => {
   return (
     <div className="w-full bg-white p-5">
-      <h1 className="text-lg  font-semibold">Price</h1>
-      <RadioGroup className="mt-2 space-y-1" value={selectedPrice || ""}>
+      <h1 className="text-lg   font-semibold">Price</h1>
+      <RadioGroup className="mt-2  space-y-1" value={selectedPrice || ""}>
         {priceArray?.map((price, index) => (
           <div
             key={index}
@@ -28,7 +28,7 @@ const PriceList = ({ selectedPrice, setSelectedPrice }: Props) => {
             <RadioGroupItem
               value={price?.value}
               id={price?.value}
-              className="rounded-sm"
+              className="border-2 border-black cursor-pointer"
             />
             <Label
               htmlFor={price.value}
@@ -42,7 +42,7 @@ const PriceList = ({ selectedPrice, setSelectedPrice }: Props) => {
       {selectedPrice && (
         <button
           onClick={() => setSelectedPrice(null)}
-          className="text-sm font-medium mt-2 underline underline-offset-2 decoration-[1px] hover:text-shop_dark_green hoverEffect"
+          className="text-sm font-medium  mt-2 underline underline-offset-2 decoration-[1px] hover:text-shop_dark_green hoverEffect"
         >
           Reset selection
         </button>

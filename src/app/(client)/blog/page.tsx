@@ -10,7 +10,19 @@ const BlogsPage = async () => {
   const blogs = await getAllBlogs(10);
   
   return (
+  
+    
+
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+
+
+       <div>
+        <title>Blog - MassDropp | Online Ecommerce Platform</title>
+        <meta name="description" content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience." />
+        <link rel="icon" href="/favicon.ico" />
+      </div>
+
+
       {/* Hero Section */}
       <section className="relative py-20 lg:py-28 bg-gradient-to-r from-purple-50 to-pink-50">
         <div className="container mx-auto px-4 lg:px-6">

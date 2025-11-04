@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { Product } from "../../sanity.types";
 import Image from "next/image";
@@ -6,10 +7,20 @@ import { Flame, StarIcon } from "lucide-react";
 import Link from "next/link";
 import AddToWishList from "./AddToWishList";
 import AddToCartButton from "./AddToCartButton";
+import useStore from "../../store";
 
 const ProductCard = ({ product }: { product: Product }) => {
   const stock = product?.stock ?? 0;
   const isOutOfStock = stock === 0;
+
+
+  const { addToFavorite } = useStore()
+
+
+  const handleAddToFavourite = () => {
+    alert("added to favourite Successfully")
+  }
+  
 
   // Fix for categories - extract titles from objects
   const categoryTitles = product?.category
@@ -33,9 +44,9 @@ const ProductCard = ({ product }: { product: Product }) => {
   })();
 
   return (
-    <div className="text-sm border border-gray-300 group bg-white">
+    <div className="text-sm border  border-gray-300 rounded-md group bg-white">
       {/* Image Section */}
-      <div className="relative group overflow-hidden bg-gray-200">
+      <div className="relative group overflow-hidden border-b border-gray-300 bg-gray-200">
         {product?.images && (
           <Link href={`/product/${product?.slug?.current}`}>
             <Image
@@ -43,16 +54,19 @@ const ProductCard = ({ product }: { product: Product }) => {
               alt={product?.name || "Product Image"}
               width={500}
               height={500}
-              className={`w-full h-64 object-contain overflow-hidden transition-transform bg-white duration-500 ${
-                !isOutOfStock ? "group-hover:scale-105" : "opacity-50"
+              className={`w-full h-64 object-contain border- overflow-hidden transition-transform bg-white duration-500 ${
+                !isOutOfStock ? "group-hover:scale-105 opacity" : "opacity-30"
               }`}
             />
           </Link>
         )}
 
         {/* Wishlist */}
-        <div className="absolute top-2 right-2 z-10">
-          <AddToWishList product={product} />
+        <div 
+        className="absolute top-2 cursor-pointer right-2 z-10"
+        >
+          <AddToWishList
+           product={product} />
         </div>
 
         {/* Status Badges */}

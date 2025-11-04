@@ -11,6 +11,13 @@ const Page = async () => {
   return (
     <div className="py-10 bg-gray-100">
       <Container>
+
+      <div>
+      <title>Hot Deals  - MassDropp | Online Ecommerce Platform</title>
+        <meta name="description" content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience." />
+        <link rel="icon" href="/favicon.ico" />
+      </div>
+
         <h1 className="font-bold underline underline-offset-4 decoration-1 text-base uppercase">
           Hot Deal Of The Week
         </h1>

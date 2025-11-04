@@ -29,7 +29,7 @@ const AddToCartButton = ({ product, ClassName }: AddToCartButtonProps) => {
   return (
     <div className="w-full">
       {ItemCount ? (
-        <div className="px-2 py-1  bg-gray-50 rounded-lg border border-gray-200">
+        <div className="rounded-lg ">
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">Quantity</span>
             <div className="flex items-center space-x-3">

@@ -1,12 +1,12 @@
 import AddToWishList from '@/components/AddToWishList'
-import AddToWishList2 from '@/components/AddToWishlist2'
 import Container from '@/components/Container'
 import ImageView from '@/components/ImageView'
 import ProductCharacteristics from '@/components/productCharacteristics'
 import { Button } from '@/components/ui/button'
 import { getProductBySlug } from '@/sanity/queries'
-import { StarIcon, Shield, Truck, RotateCcw, Heart, Share2, ZoomIn } from 'lucide-react'
-import React from 'react'
+import { StarIcon, Shield, Truck, RotateCcw, Share2, ZoomIn } from 'lucide-react'
+import AddToCartButton from '@/components/AddToCartButton'
+import { notFound } from 'next/navigation'
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = await params;
@@ -16,6 +16,10 @@ const Page = async ({ params }: { params: { slug: string } }) => {
   // Calculate discounted price
   const originalPrice = product?.price ? product.price + (product.price * (product.discount || 0)) / 100 : 0
   const discountedPrice = product?.price || 0
+
+  if (!product) {
+    return notFound()
+  }
 
   return (
     <Container>
@@ -40,11 +44,11 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                 <div className="w-full aspect-square">
                   <ImageView product={product} isStock={isStock ? 1 : 0} />
                   
+                  {/* Add Wishlist Button */}
+                  <AddToWishList  product={product} className="top-4 right-4" />
+                  
                   {/* Image Actions */}
-                  <div className="absolute top-4 right-4 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <Button className="p-3 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white transition-colors">
-                      <Heart className="w-5 h-5 text-gray-600 hover:text-red-500" />
-                    </Button>
+                  <div className="absolute top-4 right-16 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <Button className="p-3 bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white transition-colors">
                       <Share2 className="w-5 h-5 text-gray-600 hover:text-blue-500" />
                     </Button>
@@ -99,9 +103,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                     <Button className="p-2 hover:bg-gray-100 rounded-2xl transition-colors">
                       <Share2 className="w-5 h-5" />
                     </Button>
-                    <Button className="p-2 hover:bg-gray-100 rounded-2xl transition-colors">
-                      <Heart className="w-5 h-5 hover:text-red-500" />
-                    </Button>
+                   
                   </div>
                 </div>
 
@@ -181,18 +183,15 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               {/* Action Buttons */}
               <div className="space-y-4 pt-4">
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    disabled={!isStock}
-                    className="flex-1 bg-gradient-to-r mt-0.5 cursor-pointer from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none disabled:hover:shadow-lg"
-                  >
-                    {isStock ? 'Add to Cart' : 'Out of Stock'}
-                  </Button>
-                  <div className="flex items-center justify-center border-2 border-gray-300 hover:border-gray-400 bg-white text-gray-700 rounded-full">
-                    <AddToWishList2 product={product}/>
-                  </div>
+                  {/* Replace the Button with AddToCartButton */}
+                  <AddToCartButton 
+                    product={product}
+                    ClassName="flex-1 bg-gradient-to-r mt-0.5 cursor-pointer from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none disabled:hover:shadow-lg"
+                  />
+                  
+                 
                 </div>
 
-                {/* FIXED: Remove the <p> wrapper around ProductCharacteristics */}
                 <ProductCharacteristics product={product} />
                 
                 {/* Additional Info */}

@@ -29,7 +29,7 @@ const CategoryList = ({
             <RadioGroupItem
               value={category?.slug?.current as string}
               id={category?.slug?.current}
-              className="rounded-sm"
+              className="border-2 cursor-pointer border-black"
             />
             <Label
               htmlFor={category?.slug?.current}

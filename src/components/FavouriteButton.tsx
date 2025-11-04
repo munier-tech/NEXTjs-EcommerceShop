@@ -1,14 +1,65 @@
-import { Heart } from 'lucide-react'
-import Link from 'next/link'
-import React from 'react'
+"use client";
+import { Heart } from "lucide-react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import toast from "react-hot-toast";
+import { Product } from "../../sanity.types";
+import useStore from "../../store";
 
-const FavouriteButton = () => {
+const FavoriteButton = ({
+  showProduct = false,
+  product,
+}: {
+  showProduct?: boolean;
+  product?: Product | null | undefined;
+}) => {
+  const { favoriteProduct, addToFavorite } = useStore();
+  const [existingProduct, setExistingProduct] = useState<Product | null>(null);
+  useEffect(() => {
+    const availableItem = favoriteProduct.find(
+      (item) => item?._id === product?._id
+    );
+    setExistingProduct(availableItem || null);
+  }, [product, favoriteProduct]);
+
+  const handleFavorite = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.preventDefault();
+    if (product?._id) {
+      addToFavorite(product).then(() => {
+        toast.success(
+          existingProduct
+            ? "Product removed successfully!"
+            : "Product added successfully!"
+        );
+      });
+    }
+  };
   return (
-     <Link href={"/cart"} className='relative group ' >
-      <Heart className='hover:text-green-400 hoverEffect ' />
-      <span className='absolute -top-1 -right-1 h-3.5 w-3.5 bg-green-700 text-xs text-white rounded-full font-semiBold flex items-center justify-center  hoverEffect'>0</span>
-    </Link>
-  )
-}
+    <>
+      {!showProduct ? (
+        <Link href={"/wishlist"} className="group relative">
+          <Heart className="w-6 h-6 hover:text-shop_light_green hoverEffect" />
+          <span className="absolute -top-1 -right-1 bg-green-500 text-white h-3.5 w-3.5 rounded-full text-xs font-semibold flex items-center justify-center">
+            {favoriteProduct?.length ? favoriteProduct?.length : 0}
+          </span>
+        </Link>
+      ) : (
+        <button
+          onClick={handleFavorite}
+          className="group relative hover:text-shop_light_green hoverEffect border border-shop_light_green/80 hover:border-shop_light_green p-1.5 rounded-sm"
+        >
+          {existingProduct ? (
+            <Heart
+              fill="#3b9c3c"
+              className="text-shop_light_green/80 group-hover:text-shop_light_green hoverEffect mt-.5 w-6 h-6"
+            />
+          ) : (
+            <Heart className="text-shop_light_green/80 group-hover:text-shop_light_green hoverEffect mt-.5 w-6 h-6" />
+          )}
+        </button>
+      )}
+    </>
+  );
+};
 
-export default FavouriteButton
+export default FavoriteButton;

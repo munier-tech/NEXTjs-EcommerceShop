@@ -69,7 +69,7 @@ const Shop = ({ categories, brands }: Props) => {
       <Container className="mt-5">
         <div className="sticky top-0 z-10 mb-5">
           <div className="flex items-center justify-between">
-            <h1 className="text-lg font-semibold  uppercase tracking-wide">
+            <h1 className="text-xl text-violet-700 font-semibold  uppercase tracking-wide">
               Get the products as your needs
             </h1>
             {(selectedCategory !== null ||

@@ -14,6 +14,11 @@ const Home = async () => {
   return (
     <div>
       <Container>
+      <div>
+        <title>Home - MassDropp | Online Ecommerce Platform</title>
+        <meta name="description" content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience." />
+        <link rel="icon" href="/favicon.ico" />
+      </div>
         <HomeBanner />
         <div className='py-10'>
           <ProductTab/>
