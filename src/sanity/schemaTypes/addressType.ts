@@ -32,7 +32,7 @@ export const addressType = defineType({
       title : "City",
       type : "string",
       description : "City, e.g. Hargeisa , Somaliland",
-      validation : (Rule) => Rule.required().length(2).uppercase(),
+      validation : (Rule) => Rule.required(),
     }),
     defineField({
       name : "defaultAddress",

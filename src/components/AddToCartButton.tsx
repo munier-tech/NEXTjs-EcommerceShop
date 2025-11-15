@@ -10,10 +10,10 @@ import QuantityButtons from './QuantityButtons'
 
 interface AddToCartButtonProps {
   product: Product
-  ClassName?: string
+  className?: string
 }
 
-const AddToCartButton = ({ product, ClassName }: AddToCartButtonProps) => {
+const AddToCartButton = ({ product, className }: AddToCartButtonProps) => {
   const { addItem, getItemCount } = useStore()
   const ItemCount = getItemCount(product?._id)
   
@@ -56,7 +56,7 @@ const AddToCartButton = ({ product, ClassName }: AddToCartButtonProps) => {
                 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' 
                 : 'bg-green-600 text-white hover:bg-green-700 shadow-sm hover:shadow-md transform hover:scale-105'
             }`,
-            ClassName
+            className
           )}
         >
           <ShoppingBag size={18} className="mr-2" />

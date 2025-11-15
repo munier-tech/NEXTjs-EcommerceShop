@@ -89,6 +89,7 @@ const CartPage = () => {
         clerkUserId: user?.id,
         address: selectedAddress,
       };
+      console.log(metadata)
       const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
       if (checkoutUrl) {
         window.location.href = checkoutUrl;
