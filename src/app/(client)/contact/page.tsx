@@ -1,8 +1,7 @@
-"use client"
+"use client";
 import Container from '@/components/Container';
-import Head from 'next/head';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -12,22 +11,24 @@ export default function Contact() {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState(null);
+  const [submitStatus, setSubmitStatus] = useState<string | null>(null);
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e : any) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsSubmitting(true);
     
     // Simulate form submission
     setTimeout(() => {
       setIsSubmitting(false);
       setFormData({ name: '', email: '', subject: '', message: '' });
+      setSubmitStatus('success');
       
       // Reset status after 5 seconds
       setTimeout(() => setSubmitStatus(null), 5000);
@@ -36,19 +37,19 @@ export default function Contact() {
 
   return (
     <Container className="min-h-screen bg-gray-50">
+      {/* Head section without unused import */}
       <div>
         <title>Contact Us - MassDropp | Online Ecommerce Platform</title>
-        <meta name="description" content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience." />
+        <meta name="description" content="Get in touch with MassDropp. We&apos;re here to help with any questions about our products, services, or your shopping experience." />
         <link rel="icon" href="/favicon.ico" />
       </div>
-
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-black to-indigo-700 rounded-xl text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
           <p className="text-xl max-w-2xl mx-auto">
-            We're here to help! Get in touch with our team for any questions or support.
+            We&apos;re here to help! Get in touch with our team for any questions or support.
           </p>
         </div>
       </section>
@@ -61,7 +62,7 @@ export default function Contact() {
             <div className="lg:w-2/5">
               <h2 className="text-3xl font-bold text-gray-800 mb-6">Get in Touch</h2>
               <p className="text-gray-600 mb-8">
-                Have questions about our products, services, or your order? We're here to help. 
+                Have questions about our products, services, or your order? We&apos;re here to help. 
                 Reach out to us through any of the following methods.
               </p>
 
@@ -154,7 +155,7 @@ export default function Contact() {
                 
                 {submitStatus === 'success' && (
                   <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-6">
-                    Thank you for your message! We'll get back to you within 24 hours.
+                    Thank you for your message! We&apos;ll get back to you within 24 hours.
                   </div>
                 )}
 
@@ -218,6 +219,7 @@ export default function Contact() {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      rows={6}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-colors resize-vertical"
                       placeholder="Please describe your inquiry in detail..."
                     ></textarea>
@@ -272,7 +274,7 @@ export default function Contact() {
                 },
                 {
                   question: "How can I track my order?",
-                  answer: "Once your order ships, you'll receive a tracking number via email. You can also track your order from your account dashboard."
+                  answer: "Once your order ships, you&apos;ll receive a tracking number via email. You can also track your order from your account dashboard."
                 }
               ].map((faq, index) => (
                 <div key={index} className="border border-gray-200 rounded-lg">

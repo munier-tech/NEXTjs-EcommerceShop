@@ -6,7 +6,6 @@ import Stripe from "stripe";
 import { Address } from "../../sanity.types";
 import { CartItem } from "../../store";
 
-
 export interface Metadata {
   orderNumber: string;
   customerName: string;
@@ -30,15 +29,19 @@ export async function createCheckoutSession(
       email: metadata.customerEmail,
       limit: 1,
     });
-    const customerId = customers?.data?.length > 0 ? customers.data[0].id : "";
+
+    const customerId =
+      customers.data && customers.data.length > 0
+        ? customers.data[0].id
+        : "";
 
     const sessionPayload: Stripe.Checkout.SessionCreateParams = {
       metadata: {
         orderNumber: metadata.orderNumber,
         customerName: metadata.customerName,
         customerEmail: metadata.customerEmail,
-        clerkUserId: metadata.clerkUserId!,
-        address: JSON.stringify(metadata.address),
+        clerkUserId: metadata.clerkUserId ?? "",
+        address: JSON.stringify(metadata.address ?? {}),
       },
       mode: "payment",
       allow_promotion_codes: true,
@@ -50,23 +53,33 @@ export async function createCheckoutSession(
         process.env.NEXT_PUBLIC_BASE_URL
       }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
-      line_items: items?.map((item) => ({
-        price_data: {
-          currency: "USD",
-          unit_amount: Math.round(item?.product?.price! * 100),
-          product_data: {
-            name: item?.product?.name || "Unknown Product",
-            description: item?.product?.description,
-            metadata: { id: item?.product?._id },
-            images:
-              item?.product?.images && item?.product?.images?.length > 0
-                ? [urlFor(item?.product?.images[0]).url()]
-                : undefined,
+      line_items: items.map((item) => {
+        // price fallback
+        const priceValue = item.product?.price ?? 0;
+        const unitAmount = Math.round(priceValue * 100);
+
+        // image safe handling
+        const images =
+          item.product?.images && item.product.images.length > 0
+            ? [urlFor(item.product.images[0]).url()]
+            : [];
+
+        return {
+          price_data: {
+            currency: "USD",
+            unit_amount: unitAmount,
+            product_data: {
+              name: item.product?.name ?? "Unknown Product",
+              description: item.product?.description ?? "",
+              metadata: { id: item.product?._id ?? "" },
+              images,
+            },
           },
-        },
-        quantity: item?.quantity,
-      })),
+          quantity: item.quantity ?? 1,
+        };
+      }),
     };
+
     if (customerId) {
       sessionPayload.customer = customerId;
     } else {

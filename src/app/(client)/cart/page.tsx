@@ -50,7 +50,7 @@ const CartPage = () => {
       const query = `*[_type=="address"] | order(publishedAt desc)`;
       const data = await client.fetch(query);
       setAddresses(data);
-      const defaultAddress = data.find((addr: any) => addr.default);
+      const defaultAddress = data.find((addr: Address) => addr.defaultAddress);
       if (defaultAddress) {
         setSelectedAddress(defaultAddress);
       } else if (data.length > 0) {

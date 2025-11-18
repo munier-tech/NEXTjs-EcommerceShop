@@ -1,17 +1,16 @@
 // pages/about.js
 import Container from '@/components/Container';
-import Head from 'next/head';
 import Link from 'next/link';
 
 export default function About() {
   return (
     <Container className="min-h-screen bg-gray-50">
+      {/* Head section without unused import */}
       <div>
         <title>About Us - MassDropp | Online Ecommerce Platform</title>
-        <meta name="description" content="Learn about MassDropp's mission to revolutionize online shopping with quality products and exceptional service." />
+        <meta name="description" content="Learn about MassDropp&apos;s mission to revolutionize online shopping with quality products and exceptional service." />
         <link rel="icon" href="/favicon.ico" />
       </div>
-
 
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-black rounded-xl to-indigo-700 text-white py-20">
@@ -44,7 +43,7 @@ export default function About() {
                 MassDropp started as a small venture with just five team members and a big dream. We noticed that many online marketplaces were either too expensive or offered poor quality products. We set out to change that.
               </p>
               <p className="text-gray-600 mb-4">
-                Through strategic partnerships with manufacturers and a focus on customer satisfaction, we've grown into a trusted ecommerce platform serving thousands of customers worldwide.
+                Through strategic partnerships with manufacturers and a focus on customer satisfaction, we&apos;ve grown into a trusted ecommerce platform serving thousands of customers worldwide.
               </p>
               <p className="text-gray-600">
                 Today, we continue to innovate and expand our product offerings while staying true to our core values of quality, affordability, and exceptional service.
@@ -88,7 +87,7 @@ export default function About() {
                 <h3 className="text-2xl font-bold text-gray-800">Our Vision</h3>
               </div>
               <p className="text-gray-600">
-                To become the world's most customer-centric online marketplace, where people can find anything they want to buy online, with the confidence that they're getting the best value for their money.
+                To become the world&apos;s most customer-centric online marketplace, where people can find anything they want to buy online, with the confidence that they&apos;re getting the best value for their money.
               </p>
             </div>
           </div>
@@ -154,7 +153,7 @@ export default function About() {
             </p>
           </div>
           
-          <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               { name: "Hanad siciid Abdilahi", role: "CEO & Founder", img: "/api/placeholder/200/200" },
               { name: "Hanad Siciid Abdilahi", role: "Head of Operations", img: "/api/placeholder/200/200" },

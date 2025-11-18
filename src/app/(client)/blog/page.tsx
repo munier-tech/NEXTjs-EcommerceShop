@@ -5,23 +5,24 @@ import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
+import { GET_ALL_BLOGResult } from "../../../../sanity.types";
+
+// Simplified blog type without categories
+type BlogWithoutCategory = Omit<GET_ALL_BLOGResult[0], "blogcategories">;
 
 const BlogsPage = async () => {
-  const blogs = await getAllBlogs(10);
-  
+  const blogs: BlogWithoutCategory[] = await getAllBlogs(10);
+
   return (
-  
-    
-
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-
-
-       <div>
+      <div>
         <title>Blog - MassDropp | Online Ecommerce Platform</title>
-        <meta name="description" content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience." />
+        <meta
+          name="description"
+          content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience."
+        />
         <link rel="icon" href="/favicon.ico" />
       </div>
-
 
       {/* Hero Section */}
       <section className="relative py-20 lg:py-28 bg-gradient-to-r from-purple-50 to-pink-50">
@@ -36,7 +37,7 @@ const BlogsPage = async () => {
             <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto rounded-full mb-8"></div>
           </div>
         </div>
-        
+
         {/* Background decorative elements */}
         <div className="absolute top-10 left-10 w-20 h-20 bg-purple-200 rounded-full opacity-20 blur-xl"></div>
         <div className="absolute bottom-10 right-10 w-32 h-32 bg-pink-200 rounded-full opacity-20 blur-xl"></div>
@@ -57,9 +58,9 @@ const BlogsPage = async () => {
 
           {/* Blogs Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-10 mb-16">
-            {blogs?.map((blog: any) => (
-              <article 
-                key={blog?._id} 
+            {blogs?.map((blog) => (
+              <article
+                key={blog._id}
                 className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl border border-gray-200 overflow-hidden transition-all duration-500 hover:-translate-y-3 cursor-pointer"
               >
                 {/* Image Container */}
@@ -67,18 +68,18 @@ const BlogsPage = async () => {
                   <Link href={`/blog/${blog?.slug?.current}`}>
                     <div className="relative overflow-hidden h-64">
                       <Image
-                        src={urlFor(blog?.mainImage).url()}
-                        alt={blog?.title || "Blog image"}
+                        src={urlFor(blog.mainImage).url()}
+                        alt={blog.title || "Blog image"}
                         fill
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-out"
                       />
                       {/* Overlay gradient */}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                      
-                      {/* Category Badge */}
+
+                      {/* Static Badge */}
                       <div className="absolute top-4 left-4">
                         <span className="bg-white/90 backdrop-blur-sm text-gray-900 px-3 py-1 rounded-full text-sm font-semibold">
-                          {blog?.categories?.[0]?.title || "Article"}
+                          Article
                         </span>
                       </div>
                     </div>
@@ -92,14 +93,18 @@ const BlogsPage = async () => {
                     <div className="flex items-center gap-2">
                       <Calendar size={16} className="text-purple-500" />
                       <span className="text-sm font-medium">
-                        {dayjs(blog.publishedAt).format("MMMM D, YYYY")}
+                        {blog.publishedAt
+                          ? dayjs(blog.publishedAt).format("MMMM D, YYYY")
+                          : "Unknown date"}
                       </span>
                     </div>
                     {blog?.author && (
                       <div className="flex items-center gap-2">
                         <User size={16} className="text-purple-500" />
                         <span className="text-sm font-medium">
-                          {blog.author.name}
+                          {typeof blog.author === "string"
+                            ? blog.author
+                            : ((blog.author as any)?.name ?? "Admin")}
                         </span>
                       </div>
                     )}
@@ -119,15 +124,19 @@ const BlogsPage = async () => {
 
                   {/* Read More */}
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    <Link href={`/blog/${blog?.slug?.current}`} className="text-purple-600 font-semibold group-hover:translate-x-1 transition-transform duration-300 inline-flex items-center gap-2">
+                    <Link
+                      href={`/blog/${blog?.slug?.current}`}
+                      className="text-purple-600 font-semibold group-hover:translate-x-1 transition-transform duration-300 inline-flex items-center gap-2"
+                    >
                       Read more
-                      <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                      <ArrowRight
+                        size={16}
+                        className="transition-transform group-hover:translate-x-1"
+                      />
                     </Link>
-                    
+
                     {/* Reading Time */}
-                    <span className="text-gray-400 text-sm">
-                      {blog?.estimatedReadingTime || '5'} min read
-                    </span>
+                   
                   </div>
                 </div>
               </article>
@@ -141,7 +150,8 @@ const BlogsPage = async () => {
                 Stay Updated
               </h3>
               <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-                Never miss our latest Blogs and insights. Subscribe to our newsletter for regular updates.
+                Never miss our latest Blogs and insights. Subscribe to our
+                newsletter for regular updates.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
@@ -150,7 +160,6 @@ const BlogsPage = async () => {
                 >
                   View
                 </Link>
-              
               </div>
             </div>
           </div>
@@ -162,19 +171,27 @@ const BlogsPage = async () => {
         <div className="container mx-auto px-4 lg:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">100+</div>
+              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+                100+
+              </div>
               <div className="text-gray-600 text-lg">Blogs Published</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">50K+</div>
+              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+                50K+
+              </div>
               <div className="text-gray-600 text-lg">Monthly Readers</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">10+</div>
+              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+                10+
+              </div>
               <div className="text-gray-600 text-lg">Expert Writers</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">5⭐</div>
+              <div className="text-4xl lg:text-5xl font-bold text-gray-900 mb-2">
+                5⭐
+              </div>
               <div className="text-gray-600 text-lg">Reader Rating</div>
             </div>
           </div>
