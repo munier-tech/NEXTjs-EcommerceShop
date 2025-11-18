@@ -1,5 +1,3 @@
-"use client";
-
 import Container from "@/components/Container";
 import { urlFor } from "@/sanity/lib/image";
 import { getSingleBlog, getLatestBlogs } from "@/sanity/queries";
@@ -10,9 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import React from "react";
-import {
-  SINGLE_BLOG_QUERYResult,
-} from "../../../../../sanity.types";
+import { SINGLE_BLOG_QUERYResult } from "../../../../../sanity.types";
 
 interface Params {
   slug: string;
@@ -132,17 +128,17 @@ const SingleBlogPage = async ({ params }: { params: Params }) => {
                 <div className="w-12 h-1 bg-green-500 rounded-full mb-6" />
 
                 <div className="space-y-6">
-                  {latestBlogs?.slice(0, 4).map((latestBlog: SINGLE_BLOG_QUERYResult) => (
+                  {latestBlogs?.slice(0, 4).map(() => (
                     <Link
-                      key={latestBlog?._id}
-                      href={`/blog/${latestBlog?.slug?.current}`}
+                      key={latestBlogs?._id}
+                      href={`/blog/${latestBlogs?.slug?.current}`}
                       className="group flex items-center gap-4 p-3 rounded-xl hover:bg-gray-50 transition-all border border-transparent hover:border-gray-200"
                     >
-                      {latestBlog?.mainImage && (
+                      {latestBlogs?.mainImage && (
                         <div className="relative w-14 h-14 rounded-full overflow-hidden shadow-md">
                           <Image
-                            src={urlFor(latestBlog?.mainImage).url()}
-                            alt={latestBlog?.title ?? "Blog Image"}
+                            src={urlFor(latestBlogs?.mainImage).url()}
+                            alt={latestBlogs?.title ?? "Blog Image"}
                             fill
                             className="object-cover"
                           />
@@ -151,12 +147,12 @@ const SingleBlogPage = async ({ params }: { params: Params }) => {
 
                       <div className="flex-1 min-w-0">
                         <h4 className="font-semibold text-sm leading-tight line-clamp-2 group-hover:text-green-600">
-                          {latestBlog?.title}
+                          {latestBlogs?.title}
                         </h4>
                         <div className="flex items-center gap-1 text-gray-500">
                           <Calendar size={12} className="text-green-500" />
                           <span className="text-xs">
-                            {dayjs(latestBlog?.publishedAt).format("MMM D")}
+                            {dayjs(latestBlogs?.publishedAt).format("MMM D")}
                           </span>
                         </div>
                       </div>

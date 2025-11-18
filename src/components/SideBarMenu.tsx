@@ -4,8 +4,8 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SocialMedia from "./SocialMedia";
-import { ClerkLoaded, SignedIn, SignInButton, UserButton } from '@clerk/nextjs';
-import { Logs, User } from "lucide-react";
+import { ClerkLoaded, SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/nextjs';
+import { Logs } from "lucide-react";
 
 interface SideBarMenuProps {
   isOpen: boolean;
@@ -76,7 +76,7 @@ const SideBarMenu: FC<SideBarMenuProps> = ({ isOpen, onClose }) => {
 
           {/* Orders and Auth Section */}
           <div className="space-y-4 pt-4 border-t border-gray-700">
-            {/* Orders Link */}
+            {/* Orders Link - Only show when signed in */}
             <ClerkLoaded>
               <SignedIn>
                 <Link href="/orders" onClick={onClose}>
@@ -98,21 +98,34 @@ const SideBarMenu: FC<SideBarMenuProps> = ({ isOpen, onClose }) => {
             {/* Auth Section */}
             <ClerkLoaded>
               <div className="space-y-3">
+                {/* Show UserButton when signed in */}
                 <SignedIn>
                   <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gray-800/50">
-                    <div className="p-1 rounded-lg bg-white/10">
-                      <UserButton 
-                        appearance={{
-                          elements: {
-                            avatarBox: "w-8 h-8 rounded-lg",
-                          }
-                        }}
-                      />
+                    <div className="flex-1">
+                      <p className="text-sm text-gray-300">Account</p>
                     </div>
-                    <span className="font-medium text-gray-300">My Account</span>
+                    <UserButton 
+                      afterSignOutUrl="/"
+                      appearance={{
+                        elements: {
+                          userButtonAvatarBox: "w-8 h-8",
+                        }
+                      }}
+                    />
                   </div>
                 </SignedIn>
-              
+
+                {/* Show SignInButton when signed out */}
+                <SignedOut>
+                  <SignInButton mode="modal">
+                    <button className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-semibold rounded-xl transition-all duration-300 hover:shadow-lg hover:scale-105 cursor-pointer">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                      </svg>
+                      Sign In
+                    </button>
+                  </SignInButton>
+                </SignedOut>
               </div>
             </ClerkLoaded>
           </div>
