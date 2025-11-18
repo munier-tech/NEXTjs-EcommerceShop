@@ -9,6 +9,7 @@ const Logo = ({className , spanDesign} : {className?: string , spanDesign?: stri
   return (
     <Link href={"/"} className={cn("text-2xl font-black text-green-950 tracking-wider hover:text-green-700 hoverEffect group font-sans" , className )} >
       MASSDRO<span className={cn("group-hover:text-green-950 hoverEffect text-green-700", spanDesign)} >P</span>
+      <span className={cn("group-hover:text-green-950 hoverEffect text-violet-700", spanDesign)} >P</span>
     </Link>
   )
 }

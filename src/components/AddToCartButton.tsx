@@ -33,7 +33,7 @@ const AddToCartButton = ({ product, className }: AddToCartButtonProps) => {
           <div className="flex items-center justify-between">
             <span className="text-sm font-medium text-gray-700">Quantity</span>
             <div className="flex items-center space-x-3">
-              <span className="px-3 py-1 ml-5">
+              <span className="px-1 py-1 ml-0 md:ml-16">
                 <QuantityButtons product={product}/>
               </span>
             </div>

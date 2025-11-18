@@ -7,11 +7,21 @@ import CartIcon from './CartIcon'
 import FavouriteButton from './FavouriteButton'
 import SignIn from './SignIn'
 import MobileMenu from './MobileMenu'
-import { currentUser } from '@clerk/nextjs/server'
+import { auth, currentUser } from '@clerk/nextjs/server'
 import { ClerkLoaded, SignedIn, UserButton } from '@clerk/nextjs'
+import Link from 'next/link'
+import { Logs } from 'lucide-react'
+import { getMyOrders } from '@/sanity/queries'
 
 const Header = async ({ className } : { className : string } ) => {
   const user = await currentUser()
+  const { userId } = await auth();
+
+    let orders = null;
+  if (userId) {
+    orders = await getMyOrders(userId);
+  }
+
 
   return (
     <header className="m-auto py-4 backdrop-blur-xl bg-white/10   border-b border-white/20 sticky top-0 z-50">
@@ -55,9 +65,21 @@ const Header = async ({ className } : { className : string } ) => {
               </div>
             </div>
 
+         {user && (
+            <Link
+              href="/orders"
+              className="group relative hidden md:block hover:text-shop_light_green hoverEffect"
+            >
+              <Logs />
+              <span className="absolute -top-1 -right-1 bg-green-500 text-white h-3.5 w-3.5 rounded-full text-xs font-semibold flex items-center justify-center">
+                {orders?.length ? orders?.length : 0}
+              </span>
+            </Link>
+          )}
+
             {/* Auth Section */}
             <ClerkLoaded>
-              <div className="transform hover:scale-105 transition-all duration-200">
+              <div className="transform hidden md:block hover:scale-105 transition-all duration-200">
                 <SignedIn>
                   <div className="p-1 rounded-full ">
                     <UserButton />

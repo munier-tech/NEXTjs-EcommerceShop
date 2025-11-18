@@ -10,7 +10,9 @@ const HeaderMenu = () => {
     { title: "Home", href: "/" },
     { title: "Shop", href: "/shop" },
     { title: "Blog", href: "/blog" },
-    { title: "Hot Deal", href: "/hotDeal" },
+    { title: "HotDeal", href: "/hotDeal" },
+    { title: "OrderBy", href: "/custom-order" },
+    { title: "AboutUs", href: "/about" },
   ];
   return (
     <div className="hidden md:inline-flex w-full items-center justify-center gap-7 text-sm capitalize font-semibold text-gray-800">

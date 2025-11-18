@@ -45,7 +45,7 @@ const getBrandBySlug = async (slug: string) => {
 
 
 import { client } from "@/sanity/lib/client";
-import { BRAND_QUERY, BRANDS_QUERY, GET_ALL_BLOG, SINGLE_BLOG_QUERY } from "./query";
+import { BRAND_QUERY, BRANDS_QUERY, GET_ALL_BLOG, MY_ORDERS_QUERY, SINGLE_BLOG_QUERY } from "./query";
 
 const getProductBySlug = async (slug: string) => {
   const query = `
@@ -142,4 +142,17 @@ const getDeals = async () => {
   }
 }
 
-export { getCategories , getAllBlogs , getSingleBlog ,   getBrands , getBlogs , getBrandBySlug , getLatestBlogs, getProductBySlug , getDeals};
+const getMyOrders = async (userId: string) => {
+  try {
+    const orders = await sanityFetch({
+      query: MY_ORDERS_QUERY,
+      params: { userId },
+    });
+    return orders?.data || null;
+  } catch (error) {
+    console.error("Error fetching product by ID:", error);
+    return null;
+  }
+};
+
+export { getCategories , getMyOrders ,  getAllBlogs , getSingleBlog ,   getBrands , getBlogs , getBrandBySlug , getLatestBlogs, getProductBySlug , getDeals};

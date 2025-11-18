@@ -14,7 +14,7 @@ import {
 import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import { useAuth, useUser } from "@clerk/nextjs";
-import {  ShoppingBag, Trash } from "lucide-react";
+import {  ShoppingBag, Trash, Phone, Wifi } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -25,11 +25,8 @@ import PriceFormatter from "@/components/priceFormatter";
 import { Separator } from "@/components/ui/separator";
 import EmptyCart from "@/components/EmptyCart";
 import ProductSideMenu from "@/components/ProductSideMenu";
-import {
-  createCheckoutSession,
-  Metadata,
-} from "@/actions/CreateCheckoutSession";
 import Container from "@/components/Container";
+import { createCheckoutSession, Metadata } from "@/actions/CreateCheckoutSession";
 
 const CartPage = () => {
   const {
@@ -40,6 +37,7 @@ const CartPage = () => {
     resetCart,
   } = useStore();
   const [loading, setLoading] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState<string>("stripe"); // Default to Stripe
   const groupedItems = useStore((state) => state.getGroupedItems());
   const { isSignedIn } = useAuth();
   const { user } = useUser();
@@ -82,23 +80,48 @@ const CartPage = () => {
   const handleCheckout = async () => {
     setLoading(true);
     try {
-      const metadata: Metadata = {
+      const metadata: Metadata & { paymentMethod?: string } = {
         orderNumber: crypto.randomUUID(),
         customerName: user?.fullName ?? "Unknown",
         customerEmail: user?.emailAddresses[0]?.emailAddress ?? "Unknown",
         clerkUserId: user?.id,
         address: selectedAddress,
+        paymentMethod: paymentMethod,
       };
       console.log(metadata)
-      const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
+      
+      // Handle different payment methods
+      if (paymentMethod === "stripe") {
+        const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
+        if (checkoutUrl) {
+          window.location.href = checkoutUrl;
+        }
+      } else if (paymentMethod === "telesom") {
+        // Handle Telesom Zaad payment
+        await handleTelesomPayment();
+      } else if (paymentMethod === "somtel") {
+        // Handle Somtel Edahab payment
+        await handleSomtelPayment();
       }
     } catch (error) {
       console.error("Error creating checkout session:", error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleTelesomPayment = async () => {
+    // Implement Telesom Zaad payment integration
+    toast.success("Redirecting to Telesom Zaad payment...");
+    // Add your Telesom payment integration logic here
+    console.log("Processing Telesom Zaad payment");
+  };
+
+  const handleSomtelPayment = async () => {
+    // Implement Somtel Edahab payment integration
+    toast.success("Redirecting to Somtel Edahab payment...");
+    // Add your Somtel payment integration logic here
+    console.log("Processing Somtel Edahab payment");
   };
 
   return (
@@ -252,8 +275,106 @@ const CartPage = () => {
                           className="text-xl font-bold text-gray-900"
                         />
                       </div>
+
+                      {/* Payment Methods */}
+                      <div className="pt-4 border-t border-gray-200">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4">Payment Method</h3>
+                        <RadioGroup 
+                          value={paymentMethod} 
+                          onValueChange={setPaymentMethod}
+                          className="grid grid-cols-1 gap-3"
+                        >
+                          {/* Stripe Payment */}
+                          <div
+                            className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                              paymentMethod === "stripe" 
+                                ? "border-primary bg-primary/5" 
+                                : "border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <RadioGroupItem
+                              value="stripe"
+                              id="stripe"
+                              className="cursor-pointer"
+                            />
+                            <Label
+                              htmlFor="stripe"
+                              className="flex items-center gap-3 cursor-pointer flex-1"
+                            >
+                              <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                <span className="text-white font-bold text-sm">CC</span>
+                              </div>
+                              <div>
+                                <span className="text-base font-semibold text-gray-900">
+                                  Credit/Debit Card
+                                </span>
+                                <p className="text-sm text-gray-600">Pay with Visa, Mastercard</p>
+                              </div>
+                            </Label>
+                          </div>
+
+                          {/* Telesom Zaad */}
+                          <div
+                            className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                              paymentMethod === "telesom" 
+                                ? "border-green-600 bg-green-50" 
+                                : "border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <RadioGroupItem
+                              value="telesom"
+                              id="telesom"
+                              className="cursor-pointer"
+                            />
+                            <Label
+                              htmlFor="telesom"
+                              className="flex items-center gap-3 cursor-pointer flex-1"
+                            >
+                              <div className="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                <Phone className="w-5 h-5 text-white" />
+                              </div>
+                              <div>
+                                <span className="text-base font-semibold text-gray-900">
+                                  Telesom Zaad
+                                </span>
+                                <p className="text-sm text-gray-600">Pay with your Zaad account</p>
+                              </div>
+                            </Label>
+                          </div>
+
+                          {/* Somtel Edahab */}
+                          <div
+                            className={`flex items-center gap-4 p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 ${
+                              paymentMethod === "somtel" 
+                                ? "border-purple-600 bg-purple-50" 
+                                : "border-gray-200 hover:border-gray-300"
+                            }`}
+                          >
+                            <RadioGroupItem
+                              value="somtel"
+                              id="somtel"
+                              className="cursor-pointer"
+                            />
+                            <Label
+                              htmlFor="somtel"
+                              className="flex items-center gap-3 cursor-pointer flex-1"
+                            >
+                              <div className="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                                <Wifi className="w-5 h-5 text-white" />
+                              </div>
+                              <div>
+                                <span className="text-base font-semibold text-gray-900">
+                                  Somtel Edahab
+                                </span>
+                                <p className="text-sm text-gray-600">Pay with your Edahab account</p>
+                              </div>
+                            </Label>
+                          </div>
+                        </RadioGroup>
+                      </div>
+
                       <Button
-                        className="w-full py-6  font-semibold text-sm rounded-full tracking-wide bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary transition-all duration-200 hover:shadow-lg mt-4 cursor-pointer"
+                        className="w-full py-6 font-semibold text-sm rounded-full tracking-wide bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary transition-all duration-200 hover:shadow-lg mt-4 cursor-pointer"
                         size="lg"
                         disabled={loading}
                         onClick={handleCheckout}
@@ -264,7 +385,11 @@ const CartPage = () => {
                             Processing...
                           </div>
                         ) : (
-                          "Proceed to Checkout"
+                          `Pay with ${
+                            paymentMethod === "stripe" ? "Card" :
+                            paymentMethod === "telesom" ? "Zaad" :
+                            "Edahab"
+                          }`
                         )}
                       </Button>
                     </div>
@@ -299,6 +424,7 @@ const CartPage = () => {
                               >
                                 <RadioGroupItem
                                   value={address?._id.toString()}
+                                  id={`address-${address?._id}`}
                                   className="mt-1 cursor-pointer"
                                 />
                                 <Label
@@ -363,7 +489,11 @@ const CartPage = () => {
                           Processing...
                         </div>
                       ) : (
-                        "Proceed to Checkout"
+                        `Pay with ${
+                          paymentMethod === "stripe" ? "Card" :
+                          paymentMethod === "telesom" ? "Zaad" :
+                          "Edahab"
+                        }`
                       )}
                     </Button>
                   </div>

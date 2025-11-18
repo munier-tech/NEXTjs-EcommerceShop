@@ -158,7 +158,7 @@ const ProductCard = ({ product }: { product: Product }) => {
 
         {/* Add to Cart */}
         <AddToCartButton
-          ClassName="w-full cursor-pointer rounded-full text-sm py-2 font-bold sm:py-2"
+          className="w-full cursor-pointer rounded-full text-sm py-2 font-bold sm:py-2"
           product={product}
         />
       </div>

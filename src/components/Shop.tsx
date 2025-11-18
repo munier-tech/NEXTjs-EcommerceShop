@@ -67,9 +67,9 @@ const Shop = ({ categories, brands }: Props) => {
   return (
     <div className="border-t border-t-gray-200">
       <Container className="mt-5">
-        <div className="sticky top-0 z-10 mb-5">
+        <div className="sticky top-0 z-10 mb-5 bg-white py-3">
           <div className="flex items-center justify-between">
-            <h1 className="text-xl text-violet-700 font-semibold  uppercase tracking-wide">
+            <h1 className="text-lg md:text-xl text-violet-700 font-semibold uppercase tracking-wide">
               Get the products as your needs
             </h1>
             {(selectedCategory !== null ||
@@ -81,7 +81,7 @@ const Shop = ({ categories, brands }: Props) => {
                   setSelectedBrand(null);
                   setSelectedPrice(null);
                 }}
-                className="text-green-700 underline text-sm mt-2 font-medium hover:text-red-900 hoverEffect"
+                className="text-green-700 underline text-sm font-medium hover:text-red-900 hoverEffect"
               >
                 Reset Filters
               </button>
@@ -89,6 +89,7 @@ const Shop = ({ categories, brands }: Props) => {
           </div>
         </div>
         <div className="flex flex-col md:flex-row gap-5 border-t border-t-gray-500/50">
+          {/* Filters Sidebar */}
           <div className="md:sticky md:top-20 md:self-start md:h-[calc(100vh-160px)] md:overflow-y-auto md:min-w-64 pb-5 md:border-r border-r-gray-500/50 scrollbar-hide">
             <CategoryList
               categories={categories}
@@ -105,6 +106,8 @@ const Shop = ({ categories, brands }: Props) => {
               selectedPrice={selectedPrice}
             />
           </div>
+          
+          {/* Products Grid */}
           <div className="flex-1 pt-5">
             <div className="h-[calc(100vh-160px)] overflow-y-auto pr-2 scrollbar-hide">
               {loading ? (
@@ -115,7 +118,7 @@ const Shop = ({ categories, brands }: Props) => {
                   </p>
                 </div>
               ) : products?.length > 0 ? (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-2.5">
                   {products?.map((product) => (
                     <ProductCard key={product?._id} product={product} />
                   ))}

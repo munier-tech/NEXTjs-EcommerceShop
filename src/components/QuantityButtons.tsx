@@ -35,7 +35,7 @@ const QuantityButtons = ({ product, className }: Props) => {
   };
 
   return (
-    <div className={cn("flex items-center gap-1 pb-1 text-base ml-2", className)}>
+    <div className={cn("flex items-center gap-1 md:gap-0 pb-1 text-base  mr-2", className)}>
       <Button
         onClick={handleRemoveProduct}
         variant="outline"
@@ -45,7 +45,7 @@ const QuantityButtons = ({ product, className }: Props) => {
       >
         <Minus />
       </Button>
-      <span className="font-semibold text-sm w-6 text-center text-green-950">
+      <span className="font-semibold text-sm w-4 md:w-4 text-center text-green-950 md:mx-2 ml-0">
         {itemCount}
       </span>
       <Button

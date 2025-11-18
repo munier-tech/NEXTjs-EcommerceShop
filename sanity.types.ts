@@ -223,6 +223,7 @@ export type Order = {
   stripeCheckoutSessionId?: string;
   stripeCustomerId?: string;
   clerkUserId?: string;
+  customerName?: string;
   email?: string;
   stripePaymentIntentId?: string;
   products?: Array<{
@@ -235,16 +236,17 @@ export type Order = {
     quantity?: number;
     _key: string;
   }>;
-  TotalPrice?: number;
+  totalPrice?: number;
   currency?: string;
   amountDiscount?: number;
   address?: {
     state?: string;
+    zip?: string;
     city?: string;
     address?: string;
     name?: string;
   };
-  status?: "pending" | "processing" | "shipped" | "paid" | "out-for-delivery" | "delivered" | "cancelled";
+  status?: "pending" | "processing" | "paid" | "shipped" | "out_for_delivery" | "delivered" | "cancelled";
   orderDate?: string;
 };
 
@@ -312,6 +314,24 @@ export type Brand = {
     crop?: SanityImageCrop;
     _type: "image";
   };
+};
+
+export type CustomOrder = {
+  _id: string;
+  _type: "customOrder";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  productName?: string;
+  description?: string;
+  budget?: number;
+  productLink?: string;
+  image?: string;
+  customerName?: string;
+  customerEmail?: string;
+  customerPhone?: string;
+  status?: "pending" | "in-progress" | "completed" | "cancelled";
+  createdAt?: string;
 };
 
 export type BlockContent = Array<{
@@ -451,7 +471,7 @@ export type SanityAssetSourceData = {
   url?: string;
 };
 
-export type AllSanitySchemaTypes = Address | Post | Blog | Author | Blogcategory | Category | Order | Product | Brand | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
+export type AllSanitySchemaTypes = Address | Post | Blog | Author | Blogcategory | Category | Order | Product | Brand | CustomOrder | BlockContent | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageHotspot | SanityImageCrop | SanityFileAsset | SanityImageAsset | SanityImageMetadata | Geopoint | Slug | SanityAssetSourceData;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/queries/query.ts
 // Variable: BRANDS_QUERY
@@ -477,6 +497,85 @@ export type BRANDS_QUERYResult = Array<{
     crop?: SanityImageCrop;
     _type: "image";
   };
+}>;
+// Variable: MY_ORDERS_QUERY
+// Query: *[_type == 'order' && clerkUserId == $userId] | order(orderData desc){...,products[]{  ...,product->}}
+export type MY_ORDERS_QUERYResult = Array<{
+  _id: string;
+  _type: "order";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  orderNumber?: string;
+  invoice?: {
+    id?: string;
+    number?: string;
+    hosted_invoice_url?: string;
+  };
+  stripeCheckoutSessionId?: string;
+  stripeCustomerId?: string;
+  clerkUserId?: string;
+  customerName?: string;
+  email?: string;
+  stripePaymentIntentId?: string;
+  products: Array<{
+    product: {
+      _id: string;
+      _type: "product";
+      _createdAt: string;
+      _updatedAt: string;
+      _rev: string;
+      name?: string;
+      stock?: number;
+      slug?: Slug;
+      description?: string;
+      images?: Array<{
+        asset?: {
+          _ref: string;
+          _type: "reference";
+          _weak?: boolean;
+          [internalGroqTypeReferenceTo]?: "sanity.imageAsset";
+        };
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        _type: "image";
+        _key: string;
+      }>;
+      price?: number;
+      discount?: number;
+      category?: Array<{
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        _key: string;
+        [internalGroqTypeReferenceTo]?: "category";
+      }>;
+      brand?: {
+        _ref: string;
+        _type: "reference";
+        _weak?: boolean;
+        [internalGroqTypeReferenceTo]?: "brand";
+      };
+      status?: "hot" | "new" | "sale";
+      variant?: "appliances" | "gadget" | "others" | "refregirator";
+      isFeatured?: boolean;
+    } | null;
+    quantity?: number;
+    _key: string;
+  }> | null;
+  totalPrice?: number;
+  currency?: string;
+  amountDiscount?: number;
+  address?: {
+    state?: string;
+    zip?: string;
+    city?: string;
+    address?: string;
+    name?: string;
+  };
+  status?: "cancelled" | "delivered" | "out_for_delivery" | "paid" | "pending" | "processing" | "shipped";
+  orderDate?: string;
 }>;
 // Variable: BRAND_QUERY
 // Query: *[_type == "product" && slug.current == $slug]{  "brandName": brand->title  }
@@ -600,8 +699,9 @@ import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "*[_type == \"brand\"] | order(name asc)": BRANDS_QUERYResult;
+    "*[_type == 'order' && clerkUserId == $userId] | order(orderData desc){\n...,products[]{\n  ...,product->\n}\n}": MY_ORDERS_QUERYResult;
     "*[_type == \"product\" && slug.current == $slug]{\n  \"brandName\": brand->title\n  }": BRAND_QUERYResult;
     "*[_type == 'blog'] | order(publishedAt desc)[0...$quantity]{\n  ...,  \n     blogcategories[]->{\n    title\n}\n    }\n  ": GET_ALL_BLOGResult;
-    "*[_type == \"blog\" && slug.current == $slug][0]{\n  ..., \n    author->{\n    name,\n    image,\n  },\n  blogcategories[]->{\n    title,\n    \"slug\": slug.current,\n  },\n}": SINGLE_BLOG_QUERYResult;
+    "*[_type == \"blog\" && slug.current == $slug][0]{\n  ..., \n    author->{\n    name,\n    image,\n  },\n  blogcategories[]->{\n    title,\n    \"slug\": slug.current,\n  },\n\n\n}": SINGLE_BLOG_QUERYResult;
   }
 }
