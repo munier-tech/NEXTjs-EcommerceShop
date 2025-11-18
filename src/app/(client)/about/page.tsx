@@ -1,6 +1,9 @@
 // pages/about.js
 import Container from '@/components/Container';
 import Link from 'next/link';
+import hello from "../../../images/Banner/hello.png";
+import hello2 from "../../../images/Banner/hello2.png";
+import Image from 'next/image';
 
 export default function About() {
   return (
@@ -155,15 +158,25 @@ export default function About() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { name: "Hanad siciid Abdilahi", role: "CEO & Founder", img: "/api/placeholder/200/200" },
-              { name: "Hanad Siciid Abdilahi", role: "Head of Operations", img: "/api/placeholder/200/200" },
-              { name: "Muniir Mohamed Yusuf", role: "Developer and tech lead", img: "/api/placeholder/200/200" }
+              { name: "Hanad siciid Abdilahi", role: "CEO & Founder", customImage: hello },
+              { name: "Hanad Siciid Abdilahi", role: "Head of Operations", customImage: hello },
+              { name: "Muniir Mohamed Yusuf", role: "Developer and tech lead", customImage: hello2 }
             ].map((member, index) => (
               <div key={index} className="bg-gray-50 rounded-2xl p-6 text-center shadow-sm">
                 <div className="bg-gradient-to-br from-blue-200 to-indigo-200 rounded-full w-32 h-32 mx-auto mb-4 flex items-center justify-center overflow-hidden">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
+                  {member.customImage ? (
+                    <Image
+                      src={member.customImage}
+                      alt={member.name}
+                      width={128}
+                      height={128}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  )}
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">{member.name}</h3>
                 <p className="text-blue-600 mb-4">{member.role}</p>
