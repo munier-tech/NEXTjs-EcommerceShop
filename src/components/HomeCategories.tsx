@@ -4,7 +4,11 @@ import Image from 'next/image'
 import { urlFor } from '@/sanity/lib/image'
 import Link from 'next/link'
 
-const HomeCategories = ({ categories }: { categories: Category[] }) => {
+interface CategoryWithProductCount extends Category {
+  productCount?: number
+}
+
+const HomeCategories = ({ categories }: { categories: CategoryWithProductCount[] }) => {
   return (
     <div className="mt-16 p-6 bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl shadow-sm">
       {/* Header */}
@@ -47,7 +51,7 @@ const HomeCategories = ({ categories }: { categories: Category[] }) => {
                   </h3>
                   <p className="text-sm text-gray-600 font-medium">
                     <span className="text-red-600 font-bold">
-                      {(category as any)?.productCount ?? 0}
+                      {category.productCount ?? 0}
                     </span>{' '}
                     Items Available
                   </p>

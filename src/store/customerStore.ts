@@ -12,7 +12,7 @@ interface CustomOrderState {
   loading: boolean;
   success: boolean;
   error: string | null;
-  setField: (field: string, value: any) => void;
+  setField: (field: keyof Omit<CustomOrderState, 'setField' | 'submitOrder' | 'clearError' | 'resetForm' | 'loading' | 'success' | 'error'>, value: string | number | null) => void;
   submitOrder: () => Promise<void>;
   clearError: () => void;
   resetForm: () => void;

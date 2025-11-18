@@ -47,11 +47,11 @@ export default function TermsAndConditions() {
               <section className="mb-8">
                 <h2 className="text-2xl font-bold text-gray-900 mb-4">2. Definitions</h2>
                 <ul className="list-disc list-inside text-gray-700 space-y-2">
-                  <li><strong>"Service"</strong> refers to the MassDropp website and ecommerce platform</li>
-                  <li><strong>"User"</strong> refers to any individual or entity accessing our Service</li>
-                  <li><strong>"Content"</strong> refers to text, images, videos, and other materials on our platform</li>
-                  <li><strong>"Products"</strong> refers to goods available for purchase on MassDropp</li>
-                  <li><strong>"Order"</strong> refers to a purchase request placed through our Service</li>
+                  <li><strong>&quot;Service&quot;</strong> refers to the MassDropp website and ecommerce platform</li>
+                  <li><strong>&quot;User&quot;</strong> refers to any individual or entity accessing our Service</li>
+                  <li><strong>&quot;Content&quot;</strong> refers to text, images, videos, and other materials on our platform</li>
+                  <li><strong>&quot;Products&quot;</strong> refers to goods available for purchase on MassDropp</li>
+                  <li><strong>&quot;Order&quot;</strong> refers to a purchase request placed through our Service</li>
                 </ul>
               </section>
 

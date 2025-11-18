@@ -4,6 +4,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import { GitCompareArrows, Headset, ShieldCheck, Truck } from "lucide-react";
 import { getBrands } from "@/sanity/queries";
+import { Brand } from "../../sanity.types";
 
 const extraData = [
   {
@@ -33,7 +34,7 @@ const extraData = [
 ];
 
 const ShopByBrands = async () => {
-  const brands = await getBrands();
+  const brands: Brand[] = await getBrands();
   return (
     <div className="my-16 lg:my-24">
       {/* Shop By Brands Section */}
@@ -64,7 +65,7 @@ const ShopByBrands = async () => {
 
         {/* Brands Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-4 lg:gap-6">
-          {brands?.map((brand : any) => (
+          {brands?.map((brand) => (
             <Link
               key={brand?._id}
               href={{pathname:"/shop", query:{brand:brand?.slug?.current}}}

@@ -7,6 +7,8 @@ import { getProductBySlug } from '@/sanity/queries'
 import { StarIcon, Shield, Truck, RotateCcw, Share2, ZoomIn } from 'lucide-react'
 import AddToCartButton from '@/components/AddToCartButton'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
+import { urlFor } from '@/sanity/lib/image'
 
 const Page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = await params;
@@ -75,14 +77,16 @@ const Page = async ({ params }: { params: { slug: string } }) => {
               {/* Thumbnail Images - Full Width */}
               {product?.images && product.images.length > 1 && (
                 <div className="flex space-x-3 overflow-x-auto pb-2">
-                  {product.images.map((image: any, index: any) => (
+                  {product.images.map((image: string, index: number) => (
                     <Button
                       key={index}
                       className="flex-shrink-0 w-24 h-24 bg-white rounded-2xl border-2 border-gray-200 hover:border-blue-500 overflow-hidden transition-all duration-200 p-0"
                     >
-                      <img
-                        src={image}
+                      <Image
+                        src={urlFor(image).url()}
                         alt={`${product.name} ${index + 1}`}
+                        width={96}
+                        height={96}
                         className="w-full h-full object-cover"
                       />
                     </Button>
@@ -186,7 +190,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                   {/* Replace the Button with AddToCartButton */}
                   <AddToCartButton 
                     product={product}
-                    ClassName="flex-1 bg-gradient-to-r mt-0.5 cursor-pointer from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none disabled:hover:shadow-lg"
+                    className="flex-1 bg-gradient-to-r mt-0.5 cursor-pointer from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 px-8 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 disabled:transform-none disabled:hover:shadow-lg"
                   />
                   
                  
@@ -295,7 +299,7 @@ const Page = async ({ params }: { params: { slug: string } }) => {
                     <Shield className="w-8 h-8 text-green-600" />
                   </div>
                   <h3 className="text-lg font-bold text-gray-900">100% Satisfaction Guarantee</h3>
-                  <p className="text-gray-600 text-sm">30-day money back guarantee if you're not completely satisfied</p>
+                  <p className="text-gray-600 text-sm">30-day money back guarantee if you&apos;re not completely satisfied</p>
                 </div>
               </div>
             </div>

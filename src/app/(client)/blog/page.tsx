@@ -5,7 +5,7 @@ import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import dayjs from "dayjs";
-import { GET_ALL_BLOGResult } from "../../../../sanity.types";
+import { GET_ALL_BLOGResult, Author } from "../../../../sanity.types";
 
 // Simplified blog type without categories
 type BlogWithoutCategory = Omit<GET_ALL_BLOGResult[0], "blogcategories">;
@@ -19,7 +19,7 @@ const BlogsPage = async () => {
         <title>Blog - MassDropp | Online Ecommerce Platform</title>
         <meta
           name="description"
-          content="Get in touch with MassDropp. We're here to help with any questions about our products, services, or your shopping experience."
+          content="Get in touch with MassDropp. We&apos;re here to help with any questions about our products, services, or your shopping experience."
         />
         <link rel="icon" href="/favicon.ico" />
       </div>
@@ -104,7 +104,7 @@ const BlogsPage = async () => {
                         <span className="text-sm font-medium">
                           {typeof blog.author === "string"
                             ? blog.author
-                            : ((blog.author as any)?.name ?? "Admin")}
+                            : "Admin"}
                         </span>
                       </div>
                     )}

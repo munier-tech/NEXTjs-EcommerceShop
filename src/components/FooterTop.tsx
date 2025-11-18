@@ -28,14 +28,14 @@ const FooterTop = () => {
   },
     {
     title : "Call us ",
-    subtitle : "+252 63 4422444",
+    subtitle : "+252 63 8664646",
     icon: ( 
     <Phone className='h-6 w-6 text-purple-600 hover:text-purple-700 transition-colors duration-300' />
    )
   },
     {
     title : "Email us",
-    subtitle : "muniry399@gmail.com",
+    subtitle : "MassDropp@gmail.com",
     icon: ( 
     <Mail className='h-6 w-6 text-red-600 hover:text-red-700 transition-colors duration-300' />
    )

@@ -5,9 +5,10 @@ import { urlFor } from "@/sanity/lib/image";
 import Link from "next/link";
 import { Calendar } from "lucide-react";
 import dayjs from "dayjs";
+import { GET_ALL_BLOGResult } from "../../sanity.types";
 
 const LatestBlog = async () => {
-  const blogs = await getLatestBlogs();
+  const blogs: GET_ALL_BLOGResult = await getLatestBlogs();
   return (
     <div className="mb-16 lg:mb-24">
       {/* Header */}
@@ -20,7 +21,7 @@ const LatestBlog = async () => {
 
       {/* Blog Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {blogs?.map((blog: any) => (
+        {blogs?.map((blog) => (
           <article 
             key={blog?._id} 
             className="group bg-white rounded-2xl shadow-sm hover:shadow-xl border border-gray-100 overflow-hidden transition-all duration-300 hover:-translate-y-2 cursor-pointer"
@@ -80,9 +81,12 @@ const LatestBlog = async () => {
 
       {/* View All Button */}
       <div className="text-center mt-12">
-        <button className="bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5">
+        <Link 
+          href="/blog"
+          className="inline-block bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-0.5"
+        >
           View All Articles
-        </button>
+        </Link>
       </div>
     </div>
   );
