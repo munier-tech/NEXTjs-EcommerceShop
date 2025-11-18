@@ -24,6 +24,11 @@ export async function createCheckoutSession(
   metadata: Metadata
 ) {
   try {
+    // Ensure we always have a base URL
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL?.trim() ||
+      "https://nex-tjs-ecommerce-shop.vercel.app";
+
     // Retrieve existing customer or create a new one
     const customers = await stripe.customers.list({
       email: metadata.customerEmail,
@@ -46,19 +51,12 @@ export async function createCheckoutSession(
       mode: "payment",
       allow_promotion_codes: true,
       payment_method_types: ["card"],
-      invoice_creation: {
-        enabled: true,
-      },
-      success_url: `${
-        process.env.NEXT_PUBLIC_BASE_URL
-      }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+      invoice_creation: { enabled: true },
+      success_url: `${baseUrl}/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
+      cancel_url: `${baseUrl}/cart`,
       line_items: items.map((item) => {
-        // price fallback
         const priceValue = item.product?.price ?? 0;
         const unitAmount = Math.round(priceValue * 100);
-
-        // image safe handling
         const images =
           item.product?.images && item.product.images.length > 0
             ? [urlFor(item.product.images[0]).url()]
@@ -80,6 +78,7 @@ export async function createCheckoutSession(
       }),
     };
 
+    // Assign customer info
     if (customerId) {
       sessionPayload.customer = customerId;
     } else {
