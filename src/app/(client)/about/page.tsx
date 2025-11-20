@@ -29,7 +29,7 @@ export default function About() {
       }
     },
     { 
-      name: "Muniir Mohamed Yusuf", 
+      name: "Eng Muniir Mohamed Yusuf", 
       role: "Developer and tech lead", 
       customImage: hello2,
       socialLinks: {
